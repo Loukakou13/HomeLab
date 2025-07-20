@@ -4,6 +4,11 @@ terraform {
       source = "bpg/proxmox"
       version = "0.80.0"
     }
+
+    random = {
+      source = "hashicorp/random"
+      version = "3.7.2"
+    }
   }
 }
 
@@ -19,3 +24,5 @@ provider "proxmox" {
     username = "root"
   }
 }
+
+provider "random" {}
