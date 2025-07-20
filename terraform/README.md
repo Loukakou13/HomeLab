@@ -27,3 +27,16 @@ sudo pveum user token add terraform@pve provider --privsep=0
 For more details, refer to the official documentation:
 
 https://registry.terraform.io/providers/bpg/proxmox/latest/docs#api-token-authentication
+
+## Proxmox Storage Configuration
+
+Make sure the Proxmox storage you use (e.g., local) is configured to allow:
+- Import (for downloading .qcow2 images)
+- Snippets (for uploading cloud-init files)
+
+To enable this:
+1. In the Proxmox web UI, go to Datacenter → Storage → local → Edit.
+2. Under Content, check the boxes for:
+    - Import
+    - Snippets
+3. Save the configuration.

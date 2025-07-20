@@ -29,7 +29,7 @@ resource "proxmox_virtual_environment_vm" "debian_vm" {
   }
 
   agent {
-    enabled = false
+    enabled = true
   }
 
   operating_system {
@@ -45,11 +45,12 @@ resource "proxmox_virtual_environment_vm" "debian_vm" {
       }
     }
 
-    user_account {
-      keys     = ["ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDBVXWUue9J2h59U1fXcL2RLb4DO5qJGYEJrdnDD/8sH7PdFv3p1yarGy1zkMrbm3zmIjllzSaIsptPPKtgivpK1Hez3GYcp3U/PyFgca/cGvVQDCuUz7MMenisIJASsn0WKGifycopLAvyej6BHqrJFVWWF5Vsp0GeG7CHmDauUxDQZo9reTD3EKXl0kgAabgGJGxpQCvV0a+91LydKBAoOX3a2U4aHxQh9kAfBNS/vHJ/3+gp2at0J/vFax1simWBhsyKCLzMR1W6z3QkMgXhTXosKjm9VdzOBL7L3TIYCSPOHStI2kacecpRyt+fwiMFXQegZvxHSsTLHopY5Vbt charon@louca-windows"]
-      username = "debian"
-      password = random_password.vm_password.result
-    }
+    #user_account {
+    #  keys     = ["${var.ssh_key}"]
+    #  username = "debian"
+    #  password = random_password.vm_password.result
+    #}
+    user_data_file_id = proxmox_virtual_environment_file.user_data_cloud_config.id
   }
 }
 
@@ -57,4 +58,38 @@ resource "random_password" "vm_password" {
   length           = 16
   override_special = "_%@"
   special          = true
+}
+
+resource "proxmox_virtual_environment_file" "user_data_cloud_config" {
+  content_type = "snippets"
+  datastore_id = "local"
+  node_name    = "pve"
+
+  source_raw {
+    data = <<-EOF
+    #cloud-config
+    hostname: test-debian
+    timezone: Europe/Paris
+    users:
+      - default
+      - name: debian
+        groups:
+          - sudo
+        shell: /bin/bash
+        ssh_authorized_keys:
+          - ${var.ssh_key}
+        sudo: ALL=(ALL) NOPASSWD:ALL
+    package_update: true
+    packages:
+      - qemu-guest-agent
+      - net-tools
+      - curl
+    runcmd:
+      - systemctl enable qemu-guest-agent
+      - systemctl start qemu-guest-agent
+      - echo "done" > /tmp/cloud-config.done
+    EOF
+
+    file_name = "user-data-cloud-config.yaml"
+  }
 }
