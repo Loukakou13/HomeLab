@@ -45,19 +45,8 @@ resource "proxmox_virtual_environment_vm" "debian_vm" {
       }
     }
 
-    #user_account {
-    #  keys     = ["${var.ssh_key}"]
-    #  username = "debian"
-    #  password = random_password.vm_password.result
-    #}
     user_data_file_id = proxmox_virtual_environment_file.user_data_cloud_config.id
   }
-}
-
-resource "random_password" "vm_password" {
-  length           = 16
-  override_special = "_%@"
-  special          = true
 }
 
 resource "proxmox_virtual_environment_file" "user_data_cloud_config" {
