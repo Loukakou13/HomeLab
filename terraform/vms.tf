@@ -1,19 +1,21 @@
 resource "proxmox_virtual_environment_vm" "debian_vm" {
-  name        = "debian-cloudinit-vm"
+  for_each    = var.vm_list
+
+  name        = each.value.name
   node_name   = "pve"
-  vm_id       = 101
+  vm_id       = each.value.vm_id
   on_boot     = true
   started     = true
 
   cpu {
     type    = "x86-64-v2-AES"
-    cores   = 2
-    sockets = 1
+    cores   = each.value.cores
+    sockets = each.value.sockets
   }
 
   memory {
-    dedicated = 2048
-    floating  = 2048
+    dedicated = each.value.memory
+    floating  = each.value.memory
   }
 
   disk {
@@ -46,11 +48,13 @@ resource "proxmox_virtual_environment_vm" "debian_vm" {
     }
 
     user_data_file_id = proxmox_virtual_environment_file.user_data_cloud_config.id
-    meta_data_file_id = proxmox_virtual_environment_file.meta_data_cloud_config.id
+    meta_data_file_id = proxmox_virtual_environment_file.meta_data_cloud_config[each.key].id
   }
 }
 
 resource "proxmox_virtual_environment_file" "meta_data_cloud_config" {
+  for_each = var.vm_list
+
   content_type = "snippets"
   datastore_id = "local"
   node_name    = "pve"
@@ -58,9 +62,9 @@ resource "proxmox_virtual_environment_file" "meta_data_cloud_config" {
   source_raw {
     data = <<-EOF
     #cloud-config
-    local-hostname: test-debian
+    local-hostname: ${each.value.hostname}
     EOF
-    file_name = "meta-data-cloud-config.yaml"
+    file_name = "meta-data-cloud-config-${each.value.vm_id}.yaml"
   }
 }
 
