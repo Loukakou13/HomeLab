@@ -11,6 +11,6 @@ variable "vm_list" {
     sockets  = optional(number, 2)
     memory   = optional(number, 2048)
     size     = optional(number, 20)
-    tags     = optional(list(string))
+    tags     = optional(list(string), [])
   }))
 }
