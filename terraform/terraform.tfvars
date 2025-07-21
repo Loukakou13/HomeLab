@@ -2,11 +2,14 @@ ssh_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDBVXWUue9J2h59U1fXcL2RLb4DO5qJG
 
 vm_list = {
   "test" = {
-    count = 2
+    count = 3
     hostname = "debian"
     cores = 2
     sockets = 1
     memory = 2048
     tags = [ "test" ]
+  }
+  "simple-debian" = {
+    hostname = "simple-debian"
   }
 }
