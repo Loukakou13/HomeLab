@@ -1,11 +1,12 @@
 resource "proxmox_virtual_environment_vm" "debian_vm" {
-  for_each    = var.vm_list
+  for_each    = local.expanded_vm_map
 
-  name        = each.value.name
+  name        = each.key
   node_name   = "pve"
-  vm_id       = each.value.vm_id
   on_boot     = true
   started     = true
+
+  tags = concat([ "terraform" ], each.value.tags)
 
   cpu {
     type    = "x86-64-v2-AES"
@@ -53,7 +54,7 @@ resource "proxmox_virtual_environment_vm" "debian_vm" {
 }
 
 resource "proxmox_virtual_environment_file" "meta_data_cloud_config" {
-  for_each = var.vm_list
+  for_each = local.expanded_vm_map
 
   content_type = "snippets"
   datastore_id = "local"
@@ -64,7 +65,7 @@ resource "proxmox_virtual_environment_file" "meta_data_cloud_config" {
     #cloud-config
     local-hostname: ${each.value.hostname}
     EOF
-    file_name = "meta-data-cloud-config-${each.value.vm_id}.yaml"
+    file_name = "meta-data-cloud-config-${each.value.hostname}.yaml"
   }
 }
 

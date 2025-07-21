@@ -5,11 +5,11 @@ variable "ssh_key" {
 
 variable "vm_list" {
   type = map(object({
-    name     = string
-    vm_id    = number
+    count    = number
     hostname = string
     cores    = number
     sockets  = number
     memory   = number
+    tags     = optional(list(string))
   }))
 }
