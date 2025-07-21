@@ -8,6 +8,7 @@ locals {
         cores    = vm_config.cores
         sockets  = vm_config.sockets
         memory   = vm_config.memory
+        size     = vm_config.size
         tags     = lookup(vm_config, "tags", null)
       }
     }

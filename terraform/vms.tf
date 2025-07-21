@@ -23,7 +23,7 @@ resource "proxmox_virtual_environment_vm" "debian_vm" {
     datastore_id = "local-lvm"
     import_from  = proxmox_virtual_environment_download_file.debian_12_genericcloud_amd64_qcow2.id
     interface    = "scsi0"
-    size         = 20
+    size         = each.value.size
   }
 
   network_device {
