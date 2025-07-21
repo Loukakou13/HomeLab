@@ -28,6 +28,26 @@ For more details, refer to the official documentation:
 
 https://registry.terraform.io/providers/bpg/proxmox/latest/docs#api-token-authentication
 
+## SSH Access to Proxmox
+
+To allow Terraform to upload snippets (cloud-init files) via SSH, you also need:
+1. A working SSH connection to your Proxmox host
+     Make sure your SSH public key is added to the `~/.ssh/authorized_keys` file of the `root` user (or the user defined in your Terraform provider's).
+2. Start ssh-agent and load your private key before running Terraform:
+
+```bash
+eval `ssh-agent -s`
+ssh-add
+```
+
+You can verify your key is loaded with:
+
+```bash
+ssh-add -L
+```
+
+> Note: Terraform does not use your `~/.ssh/config` file, so all authentication must go through ssh-agent.
+
 ## Proxmox Storage Configuration
 
 Make sure the Proxmox storage you use (e.g., local) is configured to allow:
