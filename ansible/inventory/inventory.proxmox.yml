@@ -1,0 +1,2 @@
+plugin: community.general.proxmox
+validate_certs: false
