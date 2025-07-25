@@ -92,10 +92,15 @@ resource "proxmox_virtual_environment_file" "user_data_cloud_config" {
       - qemu-guest-agent
       - net-tools
       - curl
+      - ufw
     runcmd:
       - systemctl enable qemu-guest-agent
       - systemctl start qemu-guest-agent
       - echo "done" > /tmp/cloud-config.done
+      - ufw default deny incoming
+      - ufw default allow outgoing
+      - ufw allow ssh
+      - ufw --force enable
     EOF
 
     file_name = "user-data-cloud-config.yaml"
