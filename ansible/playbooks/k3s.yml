@@ -1,0 +1,12 @@
+- name: Install prerequisites
+  hosts: k3s-1
+  become: true
+  roles:
+    - k3s
+
+- name: Install prerequisites
+  hosts: kubernetes,!k3s-1
+  serial: 1
+  become: true
+  roles:
+    - k3s
