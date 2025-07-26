@@ -19,20 +19,64 @@ pip install requests
 ansible-galaxy collection install community.general
 ```
 
-## Configuration
+## Inventory & Vault
 
-This project uses environment variables to securely provide Proxmox API credentials to the dynamic inventory plugin.
+This project uses the Proxmox dynamic inventory plugin and secures all connection details using Ansible Vault.
 
-1. Copy the example environment file:
+### Encrypted Inventory
 
-```bash
-cp .env.example .env
+The `inventory/inventory.proxmox.yml` file is entirely encrypted using Ansible Vault. It contains the plugin configuration and authentication data.
+
+Example content (before encryption):
+
+```yaml
+plugin: community.general.proxmox
+
+url: https://proxmox.local
+user: user@pve
+node: proxmox
+token_id: mytoken
+token_secret: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+
+validate_certs: false
+want_facts: true
+
+keyed_groups:
+  - key: proxmox_tags_parsed
+    separator: ""
+
+compose:
+  ansible_host: proxmox_agent_interfaces[1]["ip-addresses"][0].split('/')[0]
 ```
 
-2. Edit `.env` and fill in your own Proxmox API details
+This file allows Ansible to dynamically query your Proxmox cluster and group hosts based on tags, while also extracting their primary IP addresses for use as `ansible_host`.
 
-3. Load the environment variables before using Ansible:
+To edit it:
 
 ```bash
-export $(cat .env | xargs)
+ansible-vault edit inventory/inventory.proxmox.yml
+```
+
+## How to Use
+
+1. Provide Vault password
+You can either:
+ - Use --ask-vault-pass
+ - Or store it in a secure local file (e.g. ~/.vault_pass.txt):
+
+```bash
+echo 'your_vault_password' > ~/.vault_pass.txt
+chmod 600 ~/.vault_pass.txt
+```
+
+2. List inventory
+
+```bash
+ansible-inventory -i inventory/inventory.proxmox.yml --vault-password-file ~/.vault_pass.txt --list
+```
+
+3. Run playbooks
+
+```bash
+ansible-playbook -i inventory/inventory.proxmox.yml playbooks/your_playbook.yml --vault-password-file ~/.vault_pass.txt
 ```
