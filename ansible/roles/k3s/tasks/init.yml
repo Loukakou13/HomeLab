@@ -5,4 +5,9 @@
   ansible.builtin.slurp:
     src: /var/lib/rancher/k3s/server/node-token
   register: k3s_cluster_token
-  
+
+- name: Fetch kubeconfig file
+  fetch:
+    src: /etc/rancher/k3s/k3s.yaml
+    dest: /tmp/
+    flat: yes
