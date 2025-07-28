@@ -1,0 +1,8 @@
+- name: Install Argo CD using Helm
+  kubernetes.core.helm:
+    name: argocd
+    chart_repo_url: https://argoproj.github.io/argo-helm
+    chart_ref: argo-cd
+    release_namespace: argocd
+    create_namespace: true
+    kubeconfig: /tmp/k3s.yml

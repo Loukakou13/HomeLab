@@ -9,5 +9,13 @@
 - name: Fetch kubeconfig file
   fetch:
     src: /etc/rancher/k3s/k3s.yaml
-    dest: /tmp/
+    dest: /tmp/k3s.yml
     flat: yes
+
+- name: Modifier l'adresse dans le kubeconfig
+  ansible.builtin.replace:
+    path: /tmp/k3s.yml
+    regexp: '127\.0\.0\.1'
+    replace: '{{ ansible_host }}'
+  delegate_to: localhost
+  become: false

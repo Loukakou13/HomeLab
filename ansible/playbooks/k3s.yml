@@ -1,12 +1,17 @@
-- name: Install prerequisites
+- name: Init the first master node
   hosts: k3s-1
   become: true
   roles:
     - k3s
 
-- name: Install prerequisites
+- name: Install other nodes
   hosts: kubernetes,!k3s-1
   serial: 1
   become: true
   roles:
     - k3s
+
+- name: Install Argo CD on K3s cluster
+  hosts: localhost
+  roles:
+    - argocd
