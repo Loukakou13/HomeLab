@@ -5,4 +5,4 @@
     chart_ref: argo-cd
     release_namespace: argocd
     create_namespace: true
-    kubeconfig: /tmp/k3s.yml
+    kubeconfig: "{{ kubeconfig_path }}"

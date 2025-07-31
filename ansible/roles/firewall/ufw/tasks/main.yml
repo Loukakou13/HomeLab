@@ -1,0 +1,41 @@
+- name: Ensure UFW is installed
+  package:
+    name: ufw
+    state: present
+
+- name: Set default incoming UFW policy
+  community.general.ufw:
+    direction: incoming
+    policy: deny
+
+- name: Set default outgoing UFW policy
+  community.general.ufw:
+    direction: outgoing
+    policy: allow
+
+- name: Set logging to high
+  community.general.ufw:
+    logging: 'high'
+
+- name: Set firewall rule for ssh
+  community.general.ufw:
+    rule: allow
+    port: 22
+    proto: tcp
+
+- name: Apply firewall rules
+  community.general.ufw:
+    rule: "{{ item.rule | default('allow') }}"
+    port: "{{ item.port | default(omit) }}"
+    proto: "{{ item.proto | default(omit) }}"
+    src: "{{ item.src | default(omit) }}"
+    from_ip: "{{ item.from_ip | default(omit) }}"
+    to_ip: "{{ item.to_ip | default(omit) }}"
+    direction: "{{ item.direction | default(omit) }}"
+    interface: "{{ item.interface | default(omit) }}"
+  loop: "{{ firewall_rules }}"
+  when: item.when | default(true)
+
+- name: Enable UFW
+  community.general.ufw:
+    state: enabled

@@ -1,0 +1,23 @@
+- name: Install keepalived
+  apt:
+    name: keepalived
+    state: present
+
+- name: Configure keepalived
+  ansible.builtin.template:
+    src: keepalived.conf.j2
+    dest: /etc/keepalived/keepalived.conf
+    owner: root
+    group: root
+    mode: '0644'
+  notify: Restart keepalived
+  when: k3s_node_role == "server"
+  vars:
+    keepalived_priority: "{{ keepalived_base_priority - (inventory_hostname | regex_search('\\d+$') | int * 10) }}"
+
+- name: Ensure the keepalived is running correctly
+  ansible.builtin.service:
+    name: keepalived
+    enabled: true
+    state: started
+  when: k3s_node_role == "server"

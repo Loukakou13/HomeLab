@@ -1,0 +1,34 @@
+- name: Install metalLB using Helm
+  kubernetes.core.helm:
+    name: metallb
+    chart_repo_url: https://metallb.github.io/metallb
+    chart_ref: metallb
+    release_namespace: metallb-system
+    create_namespace: true
+    kubeconfig: "{{ kubeconfig_path }}"
+
+- name: Defining the IPs to assign to the Load Balancer services
+  kubernetes.core.k8s:
+    kubeconfig: "{{ kubeconfig_path }}"
+    definition:
+      apiVersion: metallb.io/v1beta1
+      kind: IPAddressPool
+      metadata:
+        name: default-pool
+        namespace: metallb-system
+      spec:
+        addresses:
+          - "{{ addresses_range }}"
+
+- name: Layer 2 configuration
+  kubernetes.core.k8s:
+    kubeconfig: "{{ kubeconfig_path }}"
+    definition:
+      apiVersion: metallb.io/v1beta1
+      kind: L2Advertisement
+      metadata:
+        name: default
+        namespace: metallb-system
+      spec:
+        IPAddressPools:
+        - default-pool

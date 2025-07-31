@@ -1,5 +1,5 @@
 - name: Donwload and run k3s installation script
-  ansible.builtin.shell: "curl -sfL {{ k3s_script_url }} | sh -"
+  ansible.builtin.shell: "curl -sfL {{ k3s_script_url }} | sh -s - server --cluster-init --tls-san {{ k3s_vip }} {{ k3s_server_options }}"
 
 - name: Retrieve k3s node token
   ansible.builtin.slurp:
@@ -16,6 +16,6 @@
   ansible.builtin.replace:
     path: /tmp/k3s.yml
     regexp: '127\.0\.0\.1'
-    replace: '{{ ansible_host }}'
+    replace: '{{ k3s_vip }}'
   delegate_to: localhost
   become: false

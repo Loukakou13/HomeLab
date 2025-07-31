@@ -30,7 +30,7 @@ The `inventory/inventory.proxmox.yml` file is entirely encrypted using Ansible V
 Example content (before encryption):
 
 ```yaml
-plugin: community.general.proxmox
+plugin: community.proxmox.proxmox
 
 url: https://proxmox.local
 user: user@pve

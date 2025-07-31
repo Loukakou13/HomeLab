@@ -1,3 +1,5 @@
----
-k3s_init_master: "k3s-1"
 k3s_script_url: "https://get.k3s.io"
+k3s_init_master: "k3s-m-1"
+k3s_node_role: "agent"
+k3s_vip: 192.168.1.151
+k3s_server_options: "--disable servicelb"

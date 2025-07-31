@@ -1,17 +1,28 @@
 - name: Init the first master node
-  hosts: k3s-1
+  hosts: k3s-m-1
   become: true
+  vars:
+    keepalived_state: MASTER
   roles:
+    - rsyslog
+    - firewall/ufw
+    - keepalived
     - k3s
 
 - name: Install other nodes
-  hosts: kubernetes,!k3s-1
+  hosts: k3s,!k3s-m-1
   serial: 1
   become: true
   roles:
+    - rsyslog
+    - firewall/ufw
     - k3s
+    - keepalived
 
-- name: Install Argo CD on K3s cluster
+- name: Configure Kubernetes addons
   hosts: localhost
+  vars:
+    kubeconfig_path: /tmp/k3s.yml
   roles:
+    - metalLB
     - argocd

@@ -1,6 +1,3 @@
-- name: Prerequisites
-  ansible.builtin.include_tasks: prerequisites.yml
-
 - name: Init the cluster
   ansible.builtin.include_tasks: init.yml
   when: k3s_init_master == ansible_hostname
