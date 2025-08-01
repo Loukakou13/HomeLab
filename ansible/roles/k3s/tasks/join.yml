@@ -10,6 +10,17 @@
     mode: '0755'
   when: not k3s_binary.stat.exists
 
+- name: Config firewall for K3s
+  ansible.builtin.include_role:
+    name: firewall
+  vars:
+    firewall_extra_rules:
+      - { port: 6443, proto: tcp, comment: 'K3s API' }
+      - { port: 8472, proto: udp, comment: 'Flannel VXLAN' }
+      - { port: 2379:2380, proto: tcp, comment: 'HA with embedded etcd' }
+      - { from: 10.42.0.0/16, comment: 'pods'}
+      - { from: 10.43.0.0/16, comment: 'services' }
+
 - name: Run k3s install script with flags
   ansible.builtin.command:
     cmd: >

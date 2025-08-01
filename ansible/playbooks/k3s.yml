@@ -5,7 +5,7 @@
     keepalived_state: MASTER
   roles:
     - rsyslog
-    - ufw
+    - firewall
     - keepalived
     - k3s
 
@@ -15,7 +15,7 @@
   become: true
   roles:
     - rsyslog
-    - ufw
+    - firewall
     - k3s
     - keepalived
 

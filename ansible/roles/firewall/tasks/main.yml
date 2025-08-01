@@ -1,0 +1,6 @@
+- name: Include initialization tasks (only once)
+  include_tasks: init.yml
+  when: not firewall_initialized | default(false)
+
+- name: Apply extra firewall rules
+  include_tasks: apply_rules.yml

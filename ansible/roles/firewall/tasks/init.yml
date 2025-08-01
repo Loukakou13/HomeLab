@@ -1,0 +1,10 @@
+- name: Initialize firewall backend defaults
+  ansible.builtin.include_tasks: "{{ firewall_backend }}_init.yml"
+  vars:
+    default_policy: "{{ firewall_default_policy }}"
+    logging: "{{ firewall_logging }}"
+
+- name: Mark firewall as initialized
+  ansible.builtin.set_fact:
+    firewall_initialized: true
+  when: not firewall_initialized | default(false)

@@ -1,3 +1,1 @@
-firewall_rules: "{{ common_firewall_rules }}"
 k3s_node_role: "agent"
-keepalived_vip: "{{ k3s_vip }}"

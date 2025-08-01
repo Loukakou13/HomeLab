@@ -1,27 +1,2 @@
-master_firewall_rules:
-  - rule: allow
-    port: 6443
-    proto: tcp
-    when: "{{ k3s_node_role == 'server' }}"
-
-  - rule: allow
-    port: "2379:2380"
-    proto: tcp
-    when: "{{ k3s_node_role == 'server' }}"
-
-  - rule: allow
-    proto: vrrp
-    direction: in
-    from_ip: "{{ ansible_default_ipv4.network | ansible.utils.ipaddr('net') }}"
-    to_ip: "224.0.0.18"
-    interface: "{{ keepalived_interface }}"
-
-  - rule: allow
-    proto: ah
-    direction: in
-    from_ip: "{{ ansible_default_ipv4.network | ansible.utils.ipaddr('net') }}"
-    to_ip: 224.0.0.18
-    interface: "{{ keepalived_interface }}"
-
-firewall_rules: "{{ common_firewall_rules + master_firewall_rules }}"
 k3s_node_role: "server"
+keepalived_vip: "{{ k3s_vip }}"

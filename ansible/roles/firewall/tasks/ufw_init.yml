@@ -1,0 +1,34 @@
+- name: Install ufw package
+  ansible.builtin.package:
+    name: ufw
+    state: present
+
+- name: Set default incoming UFW policy
+  community.general.ufw:
+    direction: incoming
+    policy: "{{ firewall_default_policy.incoming }}"
+
+- name: Set default outgoing UFW policy
+  community.general.ufw:
+    direction: outgoing
+    policy: "{{ firewall_default_policy.outgoing }}"
+
+- name: Set default routed UFW policy
+  community.general.ufw:
+    direction: outgoing
+    policy: "{{ firewall_default_policy.routed }}"
+
+- name: Configure UFW logging level
+  community.general.ufw:
+    logging: "{{ logging }}"
+    state: enabled
+
+- name: Set firewall rule for ssh
+  community.general.ufw:
+    rule: allow
+    port: 22
+    proto: tcp
+
+- name: Enable UFW
+  community.general.ufw:
+    state: enabled

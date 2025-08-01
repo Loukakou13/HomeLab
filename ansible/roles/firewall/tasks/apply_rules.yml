@@ -1,0 +1,5 @@
+- name: Activate a single firewall rule
+  ansible.builtin.include_tasks: "{{ firewall_backend }}_rule.yml"
+  loop: "{{ firewall_extra_rules }}"
+  loop_control:
+    loop_var: rule

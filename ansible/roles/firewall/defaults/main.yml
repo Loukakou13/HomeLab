@@ -1,0 +1,7 @@
+firewall_backend: "ufw"
+firewall_default_policy:
+  incoming: "deny"
+  outgoing: "allow"
+  routed: "allow"
+firewall_logging: "high"
+firewall_extra_rules: []
