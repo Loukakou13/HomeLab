@@ -3,5 +3,5 @@
   when: k3s_init_master == ansible_hostname
 
 - name: Join the cluster
-  include_tasks: join.yml
+  ansible.builtin.include_tasks: join.yml
   when: k3s_init_master != ansible_hostname

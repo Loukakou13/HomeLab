@@ -1,5 +1,5 @@
 - name: Install keepalived
-  apt:
+  ansible.builtin.apt:
     name: keepalived
     state: present
 

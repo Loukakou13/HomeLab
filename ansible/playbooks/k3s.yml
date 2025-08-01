@@ -5,7 +5,7 @@
     keepalived_state: MASTER
   roles:
     - rsyslog
-    - firewall/ufw
+    - ufw
     - keepalived
     - k3s
 
@@ -15,7 +15,7 @@
   become: true
   roles:
     - rsyslog
-    - firewall/ufw
+    - ufw
     - k3s
     - keepalived
 
@@ -24,6 +24,6 @@
   vars:
     kubeconfig_path: /tmp/k3s.yml
   roles:
-    - metalLB
+    - metallb
     - ingress-nginx
     - argocd

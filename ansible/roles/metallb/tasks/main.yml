@@ -18,7 +18,7 @@
         namespace: metallb-system
       spec:
         addresses:
-          - "{{ addresses_range }}"
+          - "{{ metallb_addresses_range }}"
 
 - name: Layer 2 configuration
   kubernetes.core.k8s:
@@ -31,4 +31,4 @@
         namespace: metallb-system
       spec:
         IPAddressPools:
-        - default-pool
+          - default-pool

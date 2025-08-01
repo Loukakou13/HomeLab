@@ -1,2 +1,30 @@
-- name: Donwload and run k3s installation script
-  ansible.builtin.shell: "curl -sfL {{ k3s_script_url }} | K3S_TOKEN={{ hostvars[k3s_init_master]['k3s_cluster_token']['content'] | b64decode | trim }} sh -s - {{ k3s_node_role }} --server https://{{ k3s_vip }}:6443 {{ k3s_node_role == 'server' if k3s_server_options else '' }}"
+- name: Check if k3s is already installed
+  ansible.builtin.stat:
+    path: /usr/local/bin/k3s
+  register: k3s_binary
+
+- name: Download the k3s install script
+  ansible.builtin.get_url:
+    url: https://get.k3s.io
+    dest: /tmp/k3s-install.sh
+    mode: '0755'
+  when: not k3s_binary.stat.exists
+
+- name: Run k3s install script with flags
+  ansible.builtin.command:
+    cmd: >
+      /tmp/k3s-install.sh {{ k3s_node_role }}
+      --server https://{{ k3s_vip }}:6443
+      --token {{ hostvars[k3s_init_master]['k3s_cluster_token']['content'] | b64decode | trim }}
+      {{ '--disable traefik' if k3s_node_role == 'server' and not k3s_enable_traefik else '' }}
+      {{ '--disable servicelb' if k3s_node_role == 'server' and not k3s_enable_servicelb else '' }}
+  args:
+    creates: /usr/local/bin/k3s
+  become: true
+  when: not k3s_binary.stat.exists
+
+- name: Ensure the k3s service is running and enabled
+  ansible.builtin.service:
+    name: k3s
+    state: started
+    enabled: true

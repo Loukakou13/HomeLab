@@ -1,10 +1,10 @@
 - name: Install rsyslog
-  package:
+  ansible.builtin.package:
     name: rsyslog
     state: present
 
 - name: Ensure rsyslog service is enabled and started
-  service:
+  ansible.builtin.service:
     name: rsyslog
     state: started
     enabled: true

@@ -1,5 +1,33 @@
-- name: Donwload and run k3s installation script
-  ansible.builtin.shell: "curl -sfL {{ k3s_script_url }} | sh -s - server --cluster-init --tls-san {{ k3s_vip }} {{ k3s_server_options }}"
+- name: Check if k3s is already installed
+  ansible.builtin.stat:
+    path: /usr/local/bin/k3s
+  register: k3s_binary
+
+- name: Download the k3s install script
+  ansible.builtin.get_url:
+    url: https://get.k3s.io
+    dest: /tmp/k3s-install.sh
+    mode: '0755'
+  when: not k3s_binary.stat.exists
+
+- name: Run k3s install script with flags
+  ansible.builtin.command:
+    cmd: >
+      /tmp/k3s-install.sh server
+      --cluster-init
+      --tls-san {{ k3s_vip }}
+      --disable traefik
+      --disable servicelb
+  args:
+    creates: /usr/local/bin/k3s
+  become: true
+  when: not k3s_binary.stat.exists
+
+- name: Ensure the k3s service is running and enabled
+  ansible.builtin.service:
+    name: k3s
+    state: started
+    enabled: true
 
 - name: Retrieve k3s node token
   ansible.builtin.slurp:
@@ -7,10 +35,10 @@
   register: k3s_cluster_token
 
 - name: Fetch kubeconfig file
-  fetch:
+  ansible.builtin.fetch:
     src: /etc/rancher/k3s/k3s.yaml
     dest: /tmp/k3s.yml
-    flat: yes
+    flat: true
 
 - name: Modifier l'adresse dans le kubeconfig
   ansible.builtin.replace:

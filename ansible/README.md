@@ -80,3 +80,31 @@ ansible-inventory -i inventory/inventory.proxmox.yml --vault-password-file ~/.va
 ```bash
 ansible-playbook -i inventory/inventory.proxmox.yml playbooks/your_playbook.yml --vault-password-file ~/.vault_pass.txt
 ```
+
+## Code Quality with ansible-lint
+
+This project uses [`ansible-lint`](https://ansible-lint.readthedocs.io/) to ensure playbooks and roles follow best practices and remain consistent.
+
+### Installation
+
+You can install it with pip:
+
+```bash
+pip install ansible-lint
+```
+
+Or use it via pipx (recommended if you want to isolate it):
+
+```bash
+pipx install ansible-lint
+```
+
+### Usage
+
+From the root of the project, run:
+
+```bash
+ansible-lint .
+```
+
+This will check all playbooks and roles against the default Ansible best practices.
