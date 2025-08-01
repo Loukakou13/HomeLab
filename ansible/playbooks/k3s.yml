@@ -25,4 +25,5 @@
     kubeconfig_path: /tmp/k3s.yml
   roles:
     - metalLB
+    - ingress-nginx
     - argocd
