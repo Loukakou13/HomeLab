@@ -1,0 +1,20 @@
+Port {{ sshd_port }}
+Protocol 2
+PermitRootLogin no
+PasswordAuthentication no
+PubkeyAuthentication yes
+ChallengeResponseAuthentication no
+UsePAM yes
+X11Forwarding no
+AllowTcpForwarding no
+MaxAuthTries {{ sshd_max_auth_tries }}
+LoginGraceTime {{ sshd_login_grace_time }}
+ClientAliveInterval {{ sshd_client_alive_interval }}
+ClientAliveCountMax {{ sshd_client_alive_count_max }}
+PermitEmptyPasswords no
+PrintMotd no
+UseDNS no
+
+{% if sshd_allow_users %}
+AllowUsers {{ sshd_allow_users | join(' ') }}
+{% endif %}

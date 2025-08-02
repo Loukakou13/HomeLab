@@ -1,0 +1,10 @@
+fail2ban_jails:
+  - name: sshd
+    enabled: true
+    filter: sshd
+    mode: aggressive
+    logpath: /var/log/auth.log
+    port: ssh
+    maxretry: 3
+    findtime: 600
+    bantime: 600

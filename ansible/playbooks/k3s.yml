@@ -6,6 +6,8 @@
   roles:
     - rsyslog
     - firewall
+    - sshd
+    - fail2ban
     - keepalived
     - k3s
 
@@ -16,6 +18,8 @@
   roles:
     - rsyslog
     - firewall
+    - sshd
+    - fail2ban
     - k3s
     - keepalived
 

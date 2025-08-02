@@ -1,0 +1,19 @@
+- name: Ensure OpenSSH is installed
+  ansible.builtin.package:
+    name: openssh-server
+    state: present
+
+- name: Deploy SSH hardening config to sshd_config.d
+  ansible.builtin.template:
+    src: sshd_config.conf.j2
+    dest: /etc/ssh/sshd_config.d/sshd_config.conf
+    owner: root
+    group: root
+    mode: '0600'
+  notify: Restart sshd service
+
+- name: Ensure sshd is enabled and running
+  ansible.builtin.service:
+    name: sshd
+    enabled: true
+    state: started
