@@ -1,4 +1,5 @@
 sshd_port: 22
+sshd_log_level: VERBOSE
 sshd_max_auth_tries: 3
 sshd_client_alive_interval: 300
 sshd_client_alive_count_max: 3
