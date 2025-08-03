@@ -6,3 +6,9 @@
     release_namespace: argocd
     create_namespace: true
     kubeconfig: "{{ kubeconfig_path }}"
+
+- name: Appliquer l'Ingress ArgoCD
+  kubernetes.core.k8s:
+    kubeconfig: "{{ kubeconfig_path }}"
+    state: present
+    src: files/argocd-ingress.yml
