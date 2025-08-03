@@ -4,3 +4,21 @@ keepalived_router_id: 51
 keepalived_auth_type: AH
 keepalived_vip: 192.168.1.151
 keepalived_base_priority: 100
+
+keepalived_firewall_rules:
+  - {
+    proto: vrrp,
+    direction: in,
+    from_ip: "192.168.1.0/24",
+    to_ip: "224.0.0.18",
+    interface: "{{ keepalived_interface }}",
+    comment: 'keepalived VIP'
+  }
+  - {
+    proto: ah,
+    direction: in,
+    from_ip: "192.168.1.0/24",
+    to_ip: "224.0.0.18",
+    interface: "{{ keepalived_interface }}",
+    comment: 'keepalived VIP'
+  }

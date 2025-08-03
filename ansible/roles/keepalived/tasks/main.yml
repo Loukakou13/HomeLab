@@ -7,22 +7,7 @@
   ansible.builtin.include_role:
     name: firewall
   vars:
-    firewall_extra_rules:
-      - {
-        proto: vrrp,
-        direction: in,
-        from_ip: "{{ ansible_default_ipv4.network | ansible.utils.ipaddr('net') }}",
-        to_ip: "224.0.0.18",
-        interface: "{{ keepalived_interface }}",
-        comment: 'keepalived VIP'
-      }
-      - {
-        proto: ah,
-        direction: in,
-        from_ip: "{{ ansible_default_ipv4.network | ansible.utils.ipaddr('net') }}",
-        to_ip: "224.0.0.18", interface: "{{ keepalived_interface }}",
-        comment: 'keepalived VIP'
-      }
+    firewall_extra_rules: "{{ keepalived_firewall_rules }}"
 
 - name: Configure keepalived
   ansible.builtin.template:

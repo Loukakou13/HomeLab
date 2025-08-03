@@ -14,12 +14,7 @@
   ansible.builtin.include_role:
     name: firewall
   vars:
-    firewall_extra_rules:
-      - { port: 6443, proto: tcp, comment: 'k3s API' }
-      - { port: 8472, proto: udp, comment: 'k3s Flannel VXLAN' }
-      - { port: 2379:2380, proto: tcp, comment: 'k3s HA with embedded etcd' }
-      - { from: 10.42.0.0/16, comment: 'k3s pods'}
-      - { from: 10.43.0.0/16, comment: 'k3s services' }
+    firewall_extra_rules: "{{ k3s_firewall_rules }}"
 
 - name: Run k3s install script with flags
   ansible.builtin.command:

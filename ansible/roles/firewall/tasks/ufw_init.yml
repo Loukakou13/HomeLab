@@ -3,6 +3,10 @@
     name: ufw
     state: present
 
+- name: Reset UFW
+  community.general.ufw:
+    state: reset
+
 - name: Set default incoming UFW policy
   community.general.ufw:
     direction: incoming
@@ -28,6 +32,7 @@
     rule: allow
     port: 22
     proto: tcp
+    from_ip: 0.0.0.0/0
 
 - name: Enable UFW
   community.general.ufw:
