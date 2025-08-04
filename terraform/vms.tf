@@ -44,7 +44,7 @@ resource "proxmox_virtual_environment_vm" "debian_vm" {
  initialization {
     ip_config {
       ipv4 {
-        address = "dhcp"
+        address = each.value.address
       }
     }
 

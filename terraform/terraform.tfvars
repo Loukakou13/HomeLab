@@ -2,14 +2,21 @@ ssh_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDBVXWUue9J2h59U1fXcL2RLb4DO5qJG
 
 vm_list = {
   "k3s-m" = {
-    count = 3
-    hostname = "k3s-m"
-    cores = 2
-    sockets = 1
-    memory = 4096
-    tags = [ "kubernetes", "k3s", "k3s-m" ]
+    count       = 3
+    hostname    = "k3s-m"
+    cores       = 2
+    sockets     = 1
+    memory      = 4096
+    tags        = [ "kubernetes", "k3s", "k3s-m" ]
   }
   "simple-debian" = {
-    hostname = "simple-debian"
+    hostname    = "simple-debian"
+  }
+  "debian-server" = {
+    hostname    = "debian-server"
+    cores       = 2
+    memory      = 2048
+    address     = "192.168.1.2/24"
+    tags        = [ "dhcp", "dns" ]
   }
 }
