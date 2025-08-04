@@ -45,6 +45,7 @@ resource "proxmox_virtual_environment_vm" "debian_vm" {
     ip_config {
       ipv4 {
         address = each.value.address
+        gateway = each.value.address == "dhcp" ? null : each.value.gateway
       }
     }
 

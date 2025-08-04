@@ -11,7 +11,8 @@ locals {
         size     = vm_config.size
         tags     = vm_config.tags
 
-        address = (
+        gateway  = vm_config.gateway
+        address  = (
           vm_config.address == "dhcp" ? vm_config.address :
           join("/", [
               join(".", [

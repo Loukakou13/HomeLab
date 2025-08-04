@@ -17,6 +17,7 @@ vm_list = {
     cores       = 2
     memory      = 2048
     address     = "192.168.1.2/24"
+    gateway     = "192.168.1.1"
     tags        = [ "dhcp", "dns" ]
   }
 }

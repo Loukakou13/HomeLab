@@ -13,6 +13,7 @@ variable "vm_list" {
     size     = optional(number, 20)
     tags     = optional(list(string), [])
     address  = optional(string, "dhcp")
+    gateway  = optional(string)
   }))
 
   validation {
