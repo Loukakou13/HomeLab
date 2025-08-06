@@ -104,7 +104,7 @@ pipx install ansible-lint
 From the root of the project, run:
 
 ```bash
-ansible-lint .
+ansible-lint playbooks/
 ```
 
 This will check all playbooks and roles against the default Ansible best practices.

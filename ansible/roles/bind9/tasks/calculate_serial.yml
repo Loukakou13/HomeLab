@@ -1,0 +1,20 @@
+- name: Fetch current serial if zone exists
+  ansible.builtin.shell: |
+    if [ -f /etc/bind/{{ bind9_zone_file }} ]; then
+      sed -n '/SOA/{n;s/^[[:space:]]*\([^[:space:]]*\).*/\1/;p;q}' /etc/bind/{{ bind9_zone_file }}
+    else
+      echo ""
+    fi
+  register: bind9_current_serial
+  changed_when: false
+
+- name: Set new serial
+  ansible.builtin.set_fact:
+    bind9_zone_serial: >-
+      {% set today = ansible_date_time.date | regex_replace('-', '') %}
+      {% if bind9_current_serial.stdout.startswith(today) %}
+        {{ today }}{{ '%02d' | format((bind9_current_serial.stdout[8:] | int) + 1) }}
+      {% else %}
+        {{ today }}00
+      {% endif %}
+  when: bind9_current_serial is defined

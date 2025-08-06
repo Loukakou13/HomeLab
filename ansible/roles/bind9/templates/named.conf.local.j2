@@ -1,0 +1,5 @@
+# Local DNS zones
+zone "{{ bind9_zone_name }}" {
+    type master;
+    file "/etc/bind/db.{{ bind9_zone_name }}";
+};

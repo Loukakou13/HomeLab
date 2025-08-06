@@ -1,0 +1,21 @@
+bind9_zone_name: home.lan
+bind9_forwarders:
+  - 1.1.1.1
+  - 1.0.0.1
+bind9_zone_file: db.{{ bind9_zone_name }}
+bind9_bind_listen_ipv4: any
+
+bind9_acl_trusted:
+  - 192.168.1.0/24
+
+bind9_dns_records:
+  - name: "@"
+    type: "A"
+    target: "192.168.1.200"
+  - name: "*"
+    type: "A"
+    target: "192.168.1.200"
+
+bind9_firewall_rules:
+  - { port: '53', proto: 'udp', comment: 'bind9 DNS' }
+  - { port: '53', proto: 'tcp', comment: 'bind9 DNS' }

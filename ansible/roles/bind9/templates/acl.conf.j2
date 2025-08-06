@@ -1,0 +1,5 @@
+acl "trusted" {
+{% for net in bind9_acl_trusted %}
+    {{ net }};
+{% endfor %}
+};

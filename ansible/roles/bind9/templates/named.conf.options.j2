@@ -1,0 +1,14 @@
+options {
+    directory "/var/cache/bind";
+
+    forwarders {
+{% for ip in bind9_forwarders %}
+        {{ ip }};
+{% endfor %}
+    };
+
+    dnssec-validation auto;
+    auth-nxdomain no;
+    listen-on { {{ bind9_bind_listen_ipv4 }}; };
+    listen-on-v6 { none; };
+};

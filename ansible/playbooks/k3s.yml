@@ -4,22 +4,14 @@
   vars:
     keepalived_state: MASTER
   roles:
-    - rsyslog
-    - firewall
-    - sshd
-    - fail2ban
-    - keepalived
     - k3s
+    - keepalived
 
 - name: Install other nodes
   hosts: k3s,!k3s-m-1
   serial: 1
   become: true
   roles:
-    - rsyslog
-    - firewall
-    - sshd
-    - fail2ban
     - k3s
     - keepalived
 

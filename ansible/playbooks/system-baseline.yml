@@ -1,0 +1,8 @@
+- name: Baseline system configuration for all hosts
+  hosts: terraform
+  become: true
+  roles:
+    - rsyslog
+    - sshd
+    - firewall
+    - fail2ban

@@ -6,6 +6,7 @@
 - name: Config firewall for keepalived
   ansible.builtin.include_role:
     name: firewall
+    tasks_from: apply_rules.yml
   vars:
     firewall_extra_rules: "{{ keepalived_firewall_rules }}"
 

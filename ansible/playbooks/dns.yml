@@ -1,0 +1,5 @@
+- name: Install DNS server
+  hosts: dns
+  become: true
+  roles:
+    - bind9
