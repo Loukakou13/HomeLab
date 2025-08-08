@@ -3,7 +3,7 @@
     path: /usr/local/bin/k3s
   register: k3s_binary
 
-- name: Download the k3s install script
+- name: Download k3s installer script
   ansible.builtin.get_url:
     url: https://get.k3s.io
     dest: /tmp/k3s-install.sh
@@ -17,7 +17,7 @@
   vars:
     firewall_extra_rules: "{{ k3s_firewall_rules }}"
 
-- name: Run k3s install script with flags
+- name: Run k3s installer script with flags
   ansible.builtin.command:
     cmd: >
       /tmp/k3s-install.sh {{ k3s_node_role }}
