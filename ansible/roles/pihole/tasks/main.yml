@@ -1,0 +1,33 @@
+- name: Check if pihole is already installed
+  ansible.builtin.stat:
+    path: /usr/local/bin/pihole
+  register: pihole_binary
+
+- name: Create /etc/pihole directory
+  file:
+    path: /etc/pihole
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: Generate Pi-hole setupVars.conf
+  template:
+    src: setupVars.conf.j2
+    dest: /etc/pihole/setupVars.conf
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Download Pi-hole installer script
+  ansible.builtin.get_url:
+    url: https://install.pi-hole.net
+    dest: /tmp/pihole_install.sh
+    mode: '0755'
+  when: not pihole_binary.stat.exists
+
+- name: Run Pi-hole installer script
+  ansible.builtin.command: bash /tmp/pihole_install.sh --unattended
+  when: not pihole_binary.stat.exists
+  notify:
+    - Restart pihole-FTL service

@@ -1,0 +1,5 @@
+- name: Install Pi-hole server
+  hosts: pihole
+  become: true
+  roles:
+    - pihole
