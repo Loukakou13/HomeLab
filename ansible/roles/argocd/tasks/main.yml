@@ -7,7 +7,7 @@
     create_namespace: true
     kubeconfig: "{{ kubeconfig_path }}"
 
-- name: Appliquer l'Ingress ArgoCD
+- name: Apply Ingress ArgoCD
   kubernetes.core.k8s:
     kubeconfig: "{{ kubeconfig_path }}"
     state: present
