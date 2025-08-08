@@ -20,4 +20,12 @@ vm_list = {
     gateway     = "192.168.1.1"
     tags        = [ "dhcp", "dns" ]
   }
+  "pi-hole" = {
+    hostname    = "pi-hole"
+    cores       = 2
+    memory      = 2048
+    address     = "192.168.1.3/24"
+    gateway     = "192.168.1.1"
+    tags        = [ "pihole" ]
+  }
 }
