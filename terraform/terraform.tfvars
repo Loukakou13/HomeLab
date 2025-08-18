@@ -6,7 +6,7 @@ vm_list = {
     hostname    = "k3s-m"
     cores       = 2
     sockets     = 1
-    memory      = 4096
+    memory      = 6144
     tags        = [ "kubernetes", "k3s", "k3s-m" ]
   }
   "simple-debian" = {
