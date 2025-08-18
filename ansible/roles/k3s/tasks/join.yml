@@ -10,13 +10,6 @@
     mode: '0755'
   when: not k3s_binary.stat.exists
 
-- name: Config firewall for K3s
-  ansible.builtin.include_role:
-    name: firewall
-    tasks_from: apply_rules.yml
-  vars:
-    firewall_extra_rules: "{{ k3s_firewall_rules }}"
-
 - name: Run k3s installer script with flags
   ansible.builtin.command:
     cmd: >

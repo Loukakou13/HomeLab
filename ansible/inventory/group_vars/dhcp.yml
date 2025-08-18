@@ -1,0 +1,2 @@
+dhcp__firewall_rules:
+  - { port: 67, proto: 'udp', comment: 'DHCP server port' }

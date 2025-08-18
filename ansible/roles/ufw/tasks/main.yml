@@ -1,0 +1,5 @@
+- name: Init the firewall
+  ansible.builtin.import_tasks: init.yml
+
+- name: Configure extra firewall rules
+  ansible.builtin.import_tasks: extra_rules.yml

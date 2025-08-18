@@ -1,2 +1,25 @@
 k3s_node_role: "server"
 keepalived_vip: "{{ k3s_vip }}"
+
+k3s_m__firewall_rules:
+  - { port: 8472, proto: 'udp', comment: 'k3s Flannel VXLAN' }
+  - { from: 10.42.0.0/16, comment: 'k3s pods network' }
+  - { from: 10.43.0.0/16, comment: 'k3s services network' }
+  - { port: 80, proto: 'tcp', comment: 'http for ingress-nginx'}
+  - { port: 443, proto: 'tcp', comment: 'https for ingress-nginx'}
+  - { port: 6443, proto: 'tcp', comment: 'k3s API Server' }
+  - { port: '2379:2380', proto: 'tcp', comment: 'k3s etcd cluster' }
+  - {
+    proto: vrrp,
+    direction: in,
+    from_ip: "192.168.1.0/24",
+    to_ip: "224.0.0.18",
+    comment: 'keepalived VIP'
+  }
+  - {
+    proto: ah,
+    direction: in,
+    from_ip: "192.168.1.0/24",
+    to_ip: "224.0.0.18",
+    comment: 'keepalived VIP'
+  }
