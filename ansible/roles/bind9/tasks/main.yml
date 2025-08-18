@@ -49,10 +49,3 @@
     group: bind
     mode: '0640'
   notify: Restart bind9 service
-
-- name: Config firewall for bind9
-  ansible.builtin.include_role:
-    name: firewall
-    tasks_from: apply_rules.yml
-  vars:
-    firewall_extra_rules: "{{ bind9_firewall_rules }}"

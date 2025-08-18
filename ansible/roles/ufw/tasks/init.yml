@@ -24,7 +24,7 @@
 
 - name: Configure UFW logging level
   community.general.ufw:
-    logging: "{{ logging }}"
+    logging: "{{ firewall_logging_level }}"
     state: enabled
 
 - name: Set firewall rule for ssh

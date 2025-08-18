@@ -15,7 +15,3 @@ bind9_dns_records:
   - name: "*"
     type: "A"
     target: "192.168.1.200"
-
-bind9_firewall_rules:
-  - { port: '53', proto: 'udp', comment: 'bind9 DNS' }
-  - { port: '53', proto: 'tcp', comment: 'bind9 DNS' }

@@ -1,25 +1,4 @@
 k3s_script_url: "https://get.k3s.io"
-k3s_init_master: "k3s-m-1"
 k3s_node_role: "agent"
 k3s_enable_traefik: false
 k3s_enable_servicelb: false
-k3s_vip: 192.168.1.151
-
-k3s_default_firewall_rules:
-  - { port: 8472, proto: 'udp', comment: 'k3s Flannel VXLAN' }
-  - { from: 10.42.0.0/16, comment: 'k3s pods network' }
-  - { from: 10.43.0.0/16, comment: 'k3s services network' }
-  - { port: 80, proto: 'tcp', comment: 'http for ingress-nginx'}
-  - { port: 443, proto: 'tcp', comment: 'https for ingress-nginx'}
-
-k3s_server_firewall_rules:
-  - { port: 6443, proto: 'tcp', comment: 'k3s API Server' }
-  - { port: '2379:2380', proto: 'tcp', comment: 'k3s etcd cluster' }
-
-k3s_agent_firewall_rules: []
-
-k3s_firewall_rules: >-
-  {{
-    k3s_default_firewall_rules
-    + (k3s_server_firewall_rules if k3s_node_role == 'server' else k3s_agent_firewall_rules)
-  }}

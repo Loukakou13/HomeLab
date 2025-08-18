@@ -1,10 +1,3 @@
-- name: Include initialization tasks (only once)
-  ansible.builtin.include_tasks: init.yml
-  when: not firewall_initialized | default(false)
-  tags:
-    - install
-
-- name: Apply extra firewall rules
-  ansible.builtin.include_tasks: apply_rules.yml
-  tags:
-    - extra-rules
+- name: Init and config the firewall
+  ansible.builtin.include_role:
+    name: "{{ firewall_backend }}"
