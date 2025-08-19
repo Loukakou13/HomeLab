@@ -1,4 +1,4 @@
-ssh_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDBVXWUue9J2h59U1fXcL2RLb4DO5qJGYEJrdnDD/8sH7PdFv3p1yarGy1zkMrbm3zmIjllzSaIsptPPKtgivpK1Hez3GYcp3U/PyFgca/cGvVQDCuUz7MMenisIJASsn0WKGifycopLAvyej6BHqrJFVWWF5Vsp0GeG7CHmDauUxDQZo9reTD3EKXl0kgAabgGJGxpQCvV0a+91LydKBAoOX3a2U4aHxQh9kAfBNS/vHJ/3+gp2at0J/vFax1simWBhsyKCLzMR1W6z3QkMgXhTXosKjm9VdzOBL7L3TIYCSPOHStI2kacecpRyt+fwiMFXQegZvxHSsTLHopY5Vbt charon@louca-windows"
+ssh_key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAID9+Me6iz3qS25W9N1xu7XctUE/UZIwAt9iRhQEf2sfJ louca.guermeur@gmail.com"
 
 vm_list = {
   "k3s-m" = {
