@@ -2,3 +2,6 @@ k3s_script_url: "https://get.k3s.io"
 k3s_node_role: "agent"
 k3s_enable_traefik: false
 k3s_enable_servicelb: false
+
+k3s_prerequisites_pkgs:
+  - nfs-common

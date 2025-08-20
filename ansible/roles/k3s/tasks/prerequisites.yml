@@ -1,0 +1,3 @@
+- name: Install a list of packages
+  ansible.builtin.apt:
+    pkg: "{{ k3s_prerequisites_pkgs }}"
