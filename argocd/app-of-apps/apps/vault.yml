@@ -5,12 +5,19 @@ metadata:
   namespace: argocd
 spec:
   project: default
+  sources:
+    - chart: vault
+      repoURL: https://helm.releases.hashicorp.com
+      targetRevision: 0.30.1
+    - repoURL: https://github.com/Loukakou13/HomeLab
+      targetRevision: main
+      ref: values
+      path: argocd/values/vault
   source:
-    chart: vault
-    repoURL: https://helm.releases.hashicorp.com
-    targetRevision: 0.30.1
     helm:
       releaseName: vault
+      valueFiles:
+        - $values/values.yaml
   destination:
     server: "https://kubernetes.default.svc"
     namespace: vault
