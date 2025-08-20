@@ -2,3 +2,4 @@ ansible==10.4.0
 requests>=2.31.0
 proxmoxer>=2.0.1
 kubernetes>=29.0.0
+ansible-lint>=25.8.1
