@@ -21,6 +21,7 @@
     kubeconfig_path: /tmp/k3s.yml
   roles:
     - nfs_provisioner
+    - cert_manager
     - metallb
     - ingress_nginx
     - argocd

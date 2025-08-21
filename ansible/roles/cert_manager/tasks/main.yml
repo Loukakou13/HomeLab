@@ -1,0 +1,31 @@
+- name: Install cert-manager using Helm
+  kubernetes.core.helm:
+    name: cert-manager
+    chart_ref: oci://quay.io/jetstack/charts/cert-manager
+    chart_version: "{{ cert_manager_version }}"
+    release_namespace: "{{ cert_manager_namespace }}"
+    create_namespace: true
+    kubeconfig: "{{ kubeconfig_path }}"
+    values:
+      installCRDs: true
+
+- name: Create the secret for Cloudflare API Token
+  community.kubernetes.k8s:
+    state: present
+    definition:
+      apiVersion: v1
+      kind: Secret
+      metadata:
+        name: cloudflare-api-token-secret
+        namespace: "{{ cert_manager_namespace }}"
+      type: Opaque
+      data:
+        api-token: "{{ cloudflare_api_token | b64encode }}"
+    kubeconfig: "{{ kubeconfig_path }}"
+
+- name: Apply ClusterIssuer Let's Encrypt
+  community.kubernetes.k8s:
+    state: present
+    namespace: "{{ cert_manager_namespace }}"
+    definition: "{{ lookup('template', 'clusterissuer.yml.j2') }}"
+    kubeconfig: "{{ kubeconfig_path }}"
