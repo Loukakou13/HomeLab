@@ -1,4 +1,4 @@
-bind9_zone_name: home.lan
+bind9_zone_name: loukawai.fr
 bind9_forwarders:
   - 1.1.1.1
   - 1.0.0.1
