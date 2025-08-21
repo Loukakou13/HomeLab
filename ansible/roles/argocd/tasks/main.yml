@@ -3,12 +3,25 @@
     name: argocd
     chart_repo_url: https://argoproj.github.io/argo-helm
     chart_ref: argo-cd
+    chart_version: 8.3.0
     release_namespace: argocd
     create_namespace: true
     kubeconfig: "{{ kubeconfig_path }}"
-
-- name: Apply Ingress ArgoCD
-  kubernetes.core.k8s:
-    kubeconfig: "{{ kubeconfig_path }}"
-    state: present
-    src: files/argocd-ingress.yml
+    values:
+      global:
+        domain: argocd.loukawai.fr
+      configs:
+        params:
+          server.insecure: true
+      server:
+        ingress:
+          enabled: true
+          ingressClassName: nginx
+          annotations:
+            nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+            nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+            cert-manager.io/cluster-issuer: "letsencrypt-dns"
+          extraTls:
+            - hosts:
+              - argocd.loukawai.fr
+              secretName: argocd-tls
