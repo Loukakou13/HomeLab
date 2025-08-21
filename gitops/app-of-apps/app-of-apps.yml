@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://github.com/Loukakou13/HomeLab.git
     targetRevision: main
-    path: argocd/app-of-apps/apps
+    path: gitops/app-of-apps/apps
     directory:
       recurse: true
   destination:

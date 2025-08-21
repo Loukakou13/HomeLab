@@ -12,7 +12,7 @@ spec:
       helm:
         releaseName: vault
         valueFiles:
-          - $values/argocd/values/vault/values.yml
+          - $values/gitops/values/vault/values.yml
     - repoURL: https://github.com/Loukakou13/HomeLab.git
       targetRevision: main
       ref: values
