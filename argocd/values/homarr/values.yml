@@ -1,9 +1,17 @@
 ingress:
   enabled: true
   ingressClassName: "nginx"
-  annotations: {}
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-dns"
   hosts:
-    - host: homarr.home.lan
+    - host: homarr.loukawai.fr
       paths:
         - path: /
-  tls: []
+  tls:       
+    - secretName: homarr-tls
+      hosts:
+        - homarr.loukawai.fr
+
+serviceAccount:
+  create: true
+  name: homarr-sa
