@@ -1,0 +1,8 @@
+common_apt_packages:
+  - fish
+  - vim
+  - git
+  - bat
+  - tree
+  - dnsutils
+  - lsof

@@ -2,6 +2,7 @@
   hosts: terraform
   become: true
   roles:
+    - common
     - rsyslog
     - sshd
     - firewall

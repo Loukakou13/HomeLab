@@ -5,6 +5,11 @@ firewall_rules: "{{ lookup('community.general.merge_variables',
                                pattern_type='suffix',
                                initial_value=[]) | unique }}"
 
+common_extra_apt_packages: "{{ lookup('community.general.merge_variables',
+                               '__common_extra_apt_packages',
+                               pattern_type='suffix',
+                               initial_value=[]) | unique }}"
+
 keepalived_auth_pass: !vault |
           $ANSIBLE_VAULT;1.1;AES256
           62316466306138306161353761373035313639353631636261643937613230643062316533316537
