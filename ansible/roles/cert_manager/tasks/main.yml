@@ -10,7 +10,7 @@
       installCRDs: true
 
 - name: Create the secret for Cloudflare API Token
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     state: present
     definition:
       apiVersion: v1
@@ -24,7 +24,7 @@
     kubeconfig: "{{ kubeconfig_path }}"
 
 - name: Apply ClusterIssuer Let's Encrypt
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     state: present
     namespace: "{{ cert_manager_namespace }}"
     definition: "{{ lookup('template', 'clusterissuer.yml.j2') }}"
