@@ -1,4 +1,4 @@
-- name: Install metalLB using Helm
+- name: Install MetalLB using Helm
   kubernetes.core.helm:
     name: metallb
     chart_repo_url: https://metallb.github.io/metallb
@@ -6,6 +6,17 @@
     release_namespace: metallb-system
     create_namespace: true
     kubeconfig: "{{ kubeconfig_path }}"
+    wait: true
+
+- name: Wait for MetalLB CRDs to be ready
+  kubernetes.core.k8s_info:
+    kubeconfig: "{{ kubeconfig_path }}"
+    api_version: metallb.io/v1beta1
+    kind: IPAddressPool
+  retries: 30
+  delay: 5
+  register: metallb_crd_check
+  until: metallb_crd_check.api_found
 
 - name: Defining the IPs to assign to the Load Balancer services
   kubernetes.core.k8s:
