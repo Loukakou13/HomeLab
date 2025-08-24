@@ -1,0 +1,28 @@
+- name: "Appliquer le RBAC pour kube-vip"
+  kubernetes.core.k8s:
+    state: present
+    src: "https://kube-vip.io/manifests/rbac.yaml"
+    kubeconfig: "{{ kubeconfig_path }}"
+
+- name: Deploy kube-vip with j2 template
+  block:
+    - name: Load the manifest
+      ansible.builtin.set_fact:
+        kube_vip_manifest: "{{ lookup('template', 'templates/kube-vip-daemonset.yml.j2') }}"
+
+    - name: Apply the kube-vip manifest
+      kubernetes.core.k8s:
+        state: present
+        definition: "{{ kube_vip_manifest | from_yaml }}"
+        kubeconfig: "{{ kubeconfig_path }}"
+
+- name: Wait the kube-vip DeamonSet to be ready
+  kubernetes.core.k8s_info:
+    kind: DaemonSet
+    namespace: kube-system
+    name: kube-vip-ds
+    kubeconfig: "{{ kubeconfig_path }}"
+  register: kube_vip_ds_status
+  until: kube_vip_ds_status.resources | length > 0 and kube_vip_ds_status.resources[0].status.numberReady >= 1
+  retries: 10
+  delay: 10

@@ -47,6 +47,6 @@
   ansible.builtin.replace:
     path: /tmp/k3s.yml
     regexp: '127\.0\.0\.1'
-    replace: '{{ k3s_vip }}'
+    replace: '{{ ansible_host }}'
   delegate_to: localhost
   become: false
