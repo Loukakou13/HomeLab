@@ -16,8 +16,11 @@
       /tmp/k3s-install.sh {{ k3s_node_role }}
       --server https://{{ k3s_vip }}:6443
       --token {{ hostvars[k3s_init_master]['k3s_cluster_token']['content'] | b64decode | trim }}
+      {{ '--disable-cloud-controller' if k3s_node_role == 'server' and not k3s_enable_servicelb else '' }}
       {{ '--disable traefik' if k3s_node_role == 'server' and not k3s_enable_traefik else '' }}
       {{ '--disable servicelb' if k3s_node_role == 'server' and not k3s_enable_servicelb else '' }}
+      {{ "--flannel-backend='none'" if k3s_node_role == 'server' and not k3s_enable_servicelb else '' }}
+      {{ '--disable-network-policy' if k3s_node_role == 'server' and not k3s_enable_servicelb else '' }}
   args:
     creates: /usr/local/bin/k3s
   become: true

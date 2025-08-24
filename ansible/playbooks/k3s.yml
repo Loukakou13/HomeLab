@@ -20,6 +20,7 @@
   vars:
     kubeconfig_path: /tmp/k3s.yml
   roles:
+    - cilium
     - nfs_provisioner
     - cert_manager
     - metallb

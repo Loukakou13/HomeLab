@@ -16,8 +16,11 @@
       /tmp/k3s-install.sh server
       --cluster-init
       --tls-san {{ k3s_vip }}
+      --disable-cloud-controller
       --disable traefik
       --disable servicelb
+      --flannel-backend='none'
+      --disable-network-policy
   args:
     creates: /usr/local/bin/k3s
   become: true

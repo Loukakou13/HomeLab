@@ -1,0 +1,10 @@
+- name: Install cilium using Helm
+  kubernetes.core.helm:
+    name: cilium
+    chart_repo_url: https://helm.cilium.io/
+    chart_ref: cilium
+    chart_version: 1.18.1
+    release_namespace: kube-system
+    create_namespace: true
+    kubeconfig: "{{ kubeconfig_path }}"
+  notify: Restart unmanaged Pods by cilium
