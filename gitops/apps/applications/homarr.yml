@@ -4,7 +4,7 @@ metadata:
   name: homarr
   namespace: argocd
 spec:
-  project: default
+  project: applications
   sources:
     - chart: homarr
       repoURL: https://homarr-labs.github.io/charts/
@@ -12,7 +12,7 @@ spec:
       helm:
         releaseName: homarr
         valueFiles:
-          - $values/gitops/values/homarr/values.yml
+          - $values/gitops/manifests/homarr/helm/values.yml
     - repoURL: https://github.com/Loukakou13/HomeLab.git
       targetRevision: main
       ref: values

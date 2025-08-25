@@ -3,8 +3,10 @@ kind: Application
 metadata:
   name: vault
   namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
 spec:
-  project: default
+  project: applications
   sources:
     - chart: vault
       repoURL: https://helm.releases.hashicorp.com
@@ -12,7 +14,7 @@ spec:
       helm:
         releaseName: vault
         valueFiles:
-          - $values/gitops/values/vault/values.yml
+          - $values/gitops/manifests/vault/helm/values.yml
     - repoURL: https://github.com/Loukakou13/HomeLab.git
       targetRevision: main
       ref: values

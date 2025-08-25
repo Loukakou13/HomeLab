@@ -1,14 +1,16 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: app-of-apps
+  name: infrastructure-apps
   namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
 spec:
   project: default
   source:
-    repoURL: https://github.com/Loukakou13/HomeLab.git
+    repoURL: git@github.com:Loukakou13/HomeLab.git
     targetRevision: main
-    path: gitops/app-of-apps/apps
+    path: gitops/apps/infrastructure
     directory:
       recurse: true
   destination:
@@ -18,5 +20,3 @@ spec:
     automated:
       prune: true
       selfHeal: true
-    syncOptions:
-      - CreateNamespace=true
