@@ -3,15 +3,6 @@
     name: fail2ban
     state: present
 
-- name: Configure fail2ban filters
-  template:
-    src: fail2ban_filter.conf.j2
-    dest: /etc/fail2ban/filter.d/{{ item.name }}.conf
-    owner: root
-    group: root
-    mode: '0644'
-  loop: "{{ fail2ban_filters }}"
-
 - name: Configure fail2ban
   ansible.builtin.template:
     src: fail2ban_jail.local.j2
