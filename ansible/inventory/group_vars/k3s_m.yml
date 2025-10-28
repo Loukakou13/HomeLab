@@ -3,8 +3,8 @@ keepalived_vip: "{{ k3s_vip }}"
 
 k3s_m__firewall_rules:
   - { port: 8472, proto: 'udp', comment: 'k3s Flannel VXLAN' }
-  - { from: 10.42.0.0/16, comment: 'k3s pods network' }
-  - { from: 10.43.0.0/16, comment: 'k3s services network' }
+  - { from_ip: 10.42.0.0/16, comment: 'k3s pods network' }
+  - { from_ip: 10.43.0.0/16, comment: 'k3s services network' }
   - { port: 80, proto: 'tcp', comment: 'http for ingress-nginx'}
   - { port: 443, proto: 'tcp', comment: 'https for ingress-nginx'}
   - { port: 6443, proto: 'tcp', comment: 'k3s API Server' }
