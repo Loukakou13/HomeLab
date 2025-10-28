@@ -1,12 +1,12 @@
 resource "proxmox_virtual_environment_vm" "debian_vm" {
-  for_each    = local.expanded_vm_map
+  for_each = local.expanded_vm_map
 
-  name        = each.key
-  node_name   = "pve"
-  on_boot     = true
-  started     = true
+  name      = each.key
+  node_name = "pve"
+  on_boot   = true
+  started   = true
 
-  tags = concat([ "terraform" ], each.value.tags)
+  tags = concat(["terraform"], each.value.tags)
 
   cpu {
     type    = "x86-64-v2-AES"
@@ -21,14 +21,14 @@ resource "proxmox_virtual_environment_vm" "debian_vm" {
 
   disk {
     datastore_id = "local-lvm"
-    import_from  = proxmox_virtual_environment_download_file.debian_12_genericcloud_amd64_qcow2.id
+    import_from  = proxmox_virtual_environment_download_file.debian_13_genericcloud_amd64_qcow2.id
     interface    = "scsi0"
     size         = each.value.size
   }
 
   network_device {
-    model     = "virtio"
-    bridge    = "vmbr0"
+    model  = "virtio"
+    bridge = "vmbr0"
   }
 
   agent {
@@ -38,10 +38,10 @@ resource "proxmox_virtual_environment_vm" "debian_vm" {
   operating_system {
     type = "l26"
   }
-  
+
   serial_device {}
 
- initialization {
+  initialization {
     ip_config {
       ipv4 {
         address = each.value.address
@@ -62,7 +62,7 @@ resource "proxmox_virtual_environment_file" "meta_data_cloud_config" {
   node_name    = "pve"
 
   source_raw {
-    data = <<-EOF
+    data      = <<-EOF
     #cloud-config
     local-hostname: ${each.value.hostname}
     EOF

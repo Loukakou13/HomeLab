@@ -1,9 +1,9 @@
-resource "proxmox_virtual_environment_download_file" "debian_12_genericcloud_amd64_qcow2" {
+resource "proxmox_virtual_environment_download_file" "debian_13_genericcloud_amd64_qcow2" {
   content_type       = "import"
   datastore_id       = "local"
-  file_name          = "debian-12-genericcloud-amd64.qcow2"
+  file_name          = "debian-13-genericcloud-amd64.qcow2"
   node_name          = "pve"
-  url                = "https://cloud.debian.org/images/cloud/bookworm/latest/debian-12-genericcloud-amd64.qcow2"
-  checksum           = "da702efced2cd98017790d0e00fee81f1e1404d3f990a4741f52e6f18bde9856d37799c053b3baa48805048a595d2a6a13c41b8287ec6f76ec27b7ef1b67a215"
+  url                = "https://cloud.debian.org/images/cloud/trixie/latest/debian-13-genericcloud-amd64.qcow2"
+  checksum           = "aa1963a7356a7fab202e5eebc0c1954c4cbd4906e3d8e9bf993beb22e0a90cd7fe644bd5e0fb5ec4b9fbea16744c464fda34ef1be5c3532897787d16c7211f86"
   checksum_algorithm = "sha512"
 }
