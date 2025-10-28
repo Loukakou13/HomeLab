@@ -33,6 +33,7 @@
     port: 22
     proto: tcp
     from_ip: 0.0.0.0/0
+    comment: 'Default ssh rule'
 
 - name: Enable UFW
   community.general.ufw:
