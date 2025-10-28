@@ -1,8 +1,10 @@
 [{{ item.name }}]
 enabled = {{ item.enabled }}
-filter = {{ item.filter }}[mode={{ item.mode }}]
+filter = {{ item.filter }}
 logpath = {{ item.logpath }}
+{% if item.port is defined %}
 port = {{ item.port }}
+{% endif %}
 maxretry = {{ item.maxretry }}
 findtime = {{ item.findtime }}
 bantime = {{ item.bantime }}
