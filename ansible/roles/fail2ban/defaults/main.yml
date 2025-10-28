@@ -1,10 +1,22 @@
+fail2ban_filters:
+  - name: ufw-block
+    failregex: |
+      ^.*\[UFW BLOCK\].*SRC=<HOST>.*$
+
 fail2ban_jails:
   - name: sshd
     enabled: true
-    filter: sshd
-    mode: aggressive
+    filter: sshd[mode=aggressive]
     logpath: /var/log/auth.log
     port: ssh
     maxretry: 3
     findtime: 600
     bantime: 600
+  - name: portscan
+    enabled: true
+    filter: ufw-block
+    logpath: /var/log/syslog
+    maxretry: 3
+    findtime: 600
+    bantime: 600
+    action: ufw[name=PortScan]

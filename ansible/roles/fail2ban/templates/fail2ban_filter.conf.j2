@@ -1,0 +1,9 @@
+[Definition]
+
+failregex = {{ item.failregex }}
+{% if item.ignoreregex is defined %}
+ignoreregex = {{ item.ignoreregex }}
+{% else %}
+ignoreregex =
+{% endif %}
+
