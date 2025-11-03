@@ -15,6 +15,9 @@ ClientAliveCountMax {{ sshd_client_alive_count_max }}
 PermitEmptyPasswords no
 PrintMotd no
 UseDNS no
+TCPKeepAlive no
+MaxSessions 2
+AllowAgentForwarding no
 
 {% if sshd_allow_users %}
 AllowUsers {{ sshd_allow_users | join(' ') }}
