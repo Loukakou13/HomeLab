@@ -1,0 +1,7 @@
+clamav_update_db_on_install: true
+clamav_packages:
+  - clamav
+  - clamav-daemon
+  - clamav-freshclam
+
+clamav_freshclam_check_interval: 12

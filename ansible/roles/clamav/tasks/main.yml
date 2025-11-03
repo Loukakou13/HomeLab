@@ -1,0 +1,31 @@
+- name: Install clamav package
+  ansible.builtin.package:
+    name: "{{ clamav_packages }}"
+    state: present
+
+- name: Configure clamd
+  template:
+    src: clamd.conf.j2
+    dest: /etc/clamav/clamd.conf
+    owner: root
+    group: root
+    mode: "0644"
+  notify: Restart clamav-daemon
+
+- name: Configure freshclam
+  template:
+    src: freshclam.conf.j2
+    dest: /etc/clamav/freshclam.conf
+    owner: root
+    group: root
+    mode: "0644"
+  notify: Restart clamav-freshclam
+
+- name: Ensure ClamAV services are enabled and started
+  ansible.builtin.service:
+    name: "{{ item }}"
+    enabled: true
+    state: started
+  loop:
+    - clamav-daemon
+    - clamav-freshclam

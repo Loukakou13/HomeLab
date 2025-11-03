@@ -1,0 +1,7 @@
+DatabaseMirror database.clamav.net
+Checks {{ clamav_freshclam_check_interval }}
+UpdateLogFile /var/log/clamav/freshclam.log
+LogVerbose yes
+LogTime yes
+Foreground false
+NotifyClamd /etc/clamav/clamd.conf
