@@ -4,10 +4,10 @@ To use this Terraform project with the Proxmox Virtual Environment (PVE), you ne
 
 ## Required Environment Variable
 
-Before running Terraform, export your Proxmox API token:
+Before running Terraform, create a `secrets.auto.tfvars` file with this content:
 
-```bash
-export PROXMOX_VE_API_TOKEN='terraform@pve!provider=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'
+```tfvars
+proxmox_ve_api_token = "terraform@pve!provider=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
 ```
 
 ## Creating the Terraform User with API Token Access
@@ -26,11 +26,12 @@ sudo pveum user token add terraform@pve provider --privsep=0
 
 For more details, refer to the official documentation:
 
-https://registry.terraform.io/providers/bpg/proxmox/latest/docs#api-token-authentication
+<https://registry.terraform.io/providers/bpg/proxmox/latest/docs#api-token-authentication>
 
 ## SSH Access to Proxmox
 
 To allow Terraform to upload snippets (cloud-init files) via SSH, you also need:
+
 1. A working SSH connection to your Proxmox host
      Make sure your SSH public key is added to the `~/.ssh/authorized_keys` file of the `root` user (or the user defined in your Terraform provider's).
 2. Start ssh-agent and load your private key before running Terraform:
@@ -51,10 +52,12 @@ ssh-add -L
 ## Proxmox Storage Configuration
 
 Make sure the Proxmox storage you use (e.g., local) is configured to allow:
+
 - Import (for downloading .qcow2 images)
 - Snippets (for uploading cloud-init files)
 
 To enable this:
+
 1. In the Proxmox web UI, go to Datacenter → Storage → local → Edit.
 2. Under Content, check the boxes for:
     - Import

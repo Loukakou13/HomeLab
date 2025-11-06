@@ -1,5 +1,11 @@
+variable "proxmox_ve_api_token" {
+  description = "API token for Proxmox VE"
+  type        = string
+  sensitive   = true
+}
+
 variable "ssh_key" {
-  type = string
+  type        = string
   description = "The ssh key allowed to access VMs."
 }
 
@@ -19,7 +25,7 @@ variable "vm_list" {
   validation {
     condition = alltrue([
       for vm in values(var.vm_list) :
-        vm.address == "dhcp" || can(regex("^\\d+\\.\\d+\\.\\d+\\.\\d+/\\d{1,2}$", vm.address))
+      vm.address == "dhcp" || can(regex("^\\d+\\.\\d+\\.\\d+\\.\\d+/\\d{1,2}$", vm.address))
     ])
     error_message = "The 'ip' needs to be an valid IPv4 address in CIDR notation (ex: 192.168.1.100/24) if it's defined."
   }
