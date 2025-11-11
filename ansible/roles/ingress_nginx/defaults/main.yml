@@ -1,0 +1,11 @@
+ingress_nginx_controllers:
+  - name: nginx-external
+    namespace: ingress-nginx
+    ingress_class: external
+    service_type: LoadBalancer
+    loadBalancerIP: 192.168.1.200
+  - name: nginx-internal
+    namespace: ingress-nginx
+    ingress_class: internal
+    service_type: LoadBalancer
+    loadBalancerIP: 192.168.1.201

@@ -1,8 +1,18 @@
-- name: Install ingress-nginx using Helm
+- name: Deploy NGINX Ingress Controllers
   kubernetes.core.helm:
-    name: ingress-nginx
+    name: "{{ item.name }}"
     chart_repo_url: https://kubernetes.github.io/ingress-nginx
     chart_ref: ingress-nginx
-    release_namespace: ingress-nginx
+    release_namespace: "{{ item.namespace }}"
     create_namespace: true
     kubeconfig: "{{ kubeconfig_path }}"
+    values:
+      controller:
+        ingressClass: "{{ item.ingress_class }}"
+        ingressClassResource:
+          name: "{{ item.ingress_class }}"
+          controllerValue: "k8s.io/{{ item.ingress_class }}"
+        service:
+          type: "{{ item.service_type }}"
+          loadBalancerIP: "{{ item.loadBalancerIP | default(omit) }}"
+  loop: "{{ ingress_nginx_controllers }}"
