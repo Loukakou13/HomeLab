@@ -1,0 +1,55 @@
+management:
+  persistentVolume:
+    enabled: false
+  ingress:
+    enabled: true
+    className: "external"
+    annotations:
+      nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+      cert-manager.io/cluster-issuer: "letsencrypt-dns"
+    hosts:
+      - host: netbird.loukawai.fr
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+    tls:
+      - secretName: netbird-management-tls
+        hosts:
+          - netbird.loukawai.fr
+
+signal:
+  ingress:
+    enabled: true
+    className: "external"
+    annotations:
+      nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+      cert-manager.io/cluster-issuer: "letsencrypt-dns"
+    hosts:
+      - host: netbird.loukawai.fr
+        paths:
+          - path: /signalexchange.SignalExchange
+            pathType: ImplementationSpecific
+    tls:
+      - secretName: netbird-signal-tls
+        hosts:
+          - netbird.loukawai.fr
+
+relay:
+  enabled: false
+
+dashboard:
+  ingress:
+    enabled: true
+    className: "internal"
+    annotations:
+      nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+      cert-manager.io/cluster-issuer: "letsencrypt-dns"
+    hosts:
+      - host: dashboard.netbird.loukawai.fr
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+    tls:
+      - secretName: netbird-dashboard-tls
+        hosts:
+          - dashboard.netbird.loukawai.fr
