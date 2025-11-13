@@ -1,0 +1,23 @@
+authentik:
+  secret_key: "PleaseGenerateASecureKey"
+  postgresql:
+    password: "ThisIsNotASecurePassword"
+
+server:
+  ingress:
+    enabled: true
+    ingressClassName: external
+    annotations:
+      cert-manager.io/cluster-issuer: "letsencrypt-dns"
+    hosts:
+      - authentik.loukawai.fr
+    tls:
+      - secretName: authentik-tls
+        hosts:
+          - authentik.loukawai.fr
+
+postgresql:
+  enabled: false
+
+redis:
+  enabled: false
