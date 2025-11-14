@@ -1,0 +1,8 @@
+- name: Apply CSI-driver-iSCSI manifests
+  kubernetes.core.k8s:
+    state: present
+    src: "{{ csi_driver_iscsi_repo_base }}/{{ item }}"
+    kubeconfig: "{{ kubeconfig_path | default(omit) }}"
+  loop: "{{ csi_driver_iscsi_manifests }}"
+  loop_control:
+    label: "{{ item }}"

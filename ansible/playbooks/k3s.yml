@@ -20,6 +20,7 @@
   roles:
     - cilium
     - nfs_provisioner
+    - csi_driver_iscsi
     - kube_vip
     - cert_manager
     - metallb

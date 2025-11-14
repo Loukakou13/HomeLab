@@ -1,0 +1,6 @@
+csi_driver_iscsi_version: "master"
+csi_driver_iscsi_repo_base: "https://raw.githubusercontent.com/kubernetes-csi/csi-driver-iscsi/{{ csi_driver_iscsi_version }}/deploy"
+
+csi_driver_iscsi_manifests:
+  - "csi-iscsi-driverinfo.yaml"
+  - "csi-iscsi-node.yaml"
