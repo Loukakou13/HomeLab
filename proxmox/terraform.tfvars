@@ -6,13 +6,11 @@ vm_list = {
     hostname = "k3s-m"
     cores    = 2
     sockets  = 1
-    memory   = 6144
+    memory   = 8192
+    size     = 50
     address  = "192.168.1.210/24"
     gateway  = "192.168.1.1"
     tags     = ["kubernetes", "k3s", "k3s-m"]
-  }
-  "simple-debian" = {
-    hostname = "simple-debian"
   }
   "debian-server" = {
     hostname = "debian-server"
