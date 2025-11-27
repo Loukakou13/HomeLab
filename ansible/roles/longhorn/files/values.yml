@@ -1,0 +1,19 @@
+ingress:
+  enabled: true
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-dns"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+  ingressClassName: "internal"
+  host: longhorn.loukawai.fr
+  tls: true
+  tlsSecret: longhorn-tls
+
+persistence:
+  recurringJobSelector:
+    jobList:
+      - name: every-3-days
+        isGroup: true
+
+defaultBackupStore:
+  backupTarget: "nfs://192.168.1.39:/volume1/HomeLab-NFS/k8s"
+  pollInterval: 300

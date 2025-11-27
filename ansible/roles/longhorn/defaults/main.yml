@@ -1,0 +1,13 @@
+longhorn_namespace: longhorn-system
+
+longhorn_ctl_version: v1.8.1
+longhorn_ctl_arch: linux-amd64
+longhorn_ctl_path: /tmp/longhornctl
+
+longhorn_default_recurring_backup_job_name: every-3-days
+longhorn_default_recurring_backup_job_cron: 0 4 */3 * *
+longhorn_default_recurring_backup_job_task: "backup"
+longhorn_default_recurring_backup_job_retain: 4
+longhorn_default_recurring_backup_job_concurrency: 1
+longhorn_default_recurring_backup_job_groups:
+  - every-3-days

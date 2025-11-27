@@ -1,4 +1,4 @@
 nfs_provisioner_server_ip: 192.168.1.39
 nfs_provisioner_path: /volume1/HomeLab-NFS/k8s
 nfs_provisioner_storage_class_name: nfs-client
-nfs_provisioner_default_class: true
+nfs_provisioner_default_class: false
