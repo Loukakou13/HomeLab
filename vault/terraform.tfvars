@@ -9,4 +9,14 @@ kubernetes_roles = {
       }
     }
   }
+  authentik = {
+    namespaces       = ["authentik"]
+    service_accounts = ["authentik"]
+
+    policy = {
+      kv2 = {
+        infra = ["k8s/authentik/db"]
+      }
+    }
+  }
 }
