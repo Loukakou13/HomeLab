@@ -3,7 +3,7 @@ server:
     enabled: true
     annotations:
       cert-manager.io/cluster-issuer: "letsencrypt-dns"
-    ingressClassName: "nginx"
+    ingressClassName: internal
     hosts:
       - host: vault.loukawai.fr
     tls:
