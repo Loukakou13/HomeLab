@@ -32,6 +32,7 @@
 - name: Create Longhorn default recurring backup job
   kubernetes.core.k8s:
     state: present
+    kubeconfig: "{{ kubeconfig_path }}"
     definition:
       apiVersion: longhorn.io/v1beta2
       kind: RecurringJob
