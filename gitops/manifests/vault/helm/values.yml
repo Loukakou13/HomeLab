@@ -10,3 +10,6 @@ server:
       - secretName: vault-tls
         hosts:
           - vault.loukawai.fr
+
+injector:
+  enabled: true
