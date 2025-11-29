@@ -1,3 +1,9 @@
+global:
+  deploymentAnnotations:
+    vault.hashicorp.com/agent-inject: "true"
+    vault.hashicorp.com/role: "authentik"
+    vault.hashicorp.com/agent-inject-secret-db.env: "infra/data/k8s/authentik/db"
+
 authentik:
   secret_key: "PleaseGenerateASecureKey"
   postgresql:
