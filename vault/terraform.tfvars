@@ -11,7 +11,7 @@ kubernetes_roles = {
   }
   authentik = {
     namespaces       = ["authentik"]
-    service_accounts = ["authentik"]
+    service_accounts = ["authentik", "default"]
 
     policy = {
       kv2 = {

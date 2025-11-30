@@ -12,5 +12,4 @@ spec:
           args:
             - |
               . /vault/secrets/db.env
-              exec dumb-init -- ak "$@"
-            - worker
+              exec dumb-init -- ak worker
