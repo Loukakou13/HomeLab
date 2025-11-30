@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: netbird
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+spec:
+  project: applications
+  sources:
+    - chart: netbird
+      repoURL: https://netbirdio.github.io/helms
+      targetRevision: 1.9.0
+      helm:
+        releaseName: netbird
+        valueFiles:
+          - $values/gitops/manifests/netbird/helm/values.yml
+    - repoURL: https://github.com/Loukakou13/HomeLab.git
+      targetRevision: netbird
+      ref: values
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: netbird
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

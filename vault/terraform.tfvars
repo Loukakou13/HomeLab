@@ -19,4 +19,44 @@ kubernetes_roles = {
       }
     }
   }
+  netbird-management = {
+    namespaces       = ["netbird"]
+    service_accounts = ["netbird-management"]
+
+    policy = {
+      kv2 = {
+        infra = ["k8s/netbird/management"]
+      }
+    }
+  }
+  netbird-signal = {
+    namespaces       = ["netbird"]
+    service_accounts = ["netbird-signal"]
+
+    policy = {
+      kv2 = {
+        infra = ["k8s/netbird/signal"]
+      }
+    }
+  }
+  netbird-relay = {
+    namespaces       = ["netbird"]
+    service_accounts = ["netbird-relay"]
+
+    policy = {
+      kv2 = {
+        infra = ["k8s/netbird/relay"]
+      }
+    }
+  }
+  netbird-dashboard = {
+    namespaces       = ["netbird"]
+    service_accounts = ["netbird-dashboard"]
+
+    policy = {
+      kv2 = {
+        infra = ["k8s/netbird/dashboard"]
+      }
+    }
+  }
 }
