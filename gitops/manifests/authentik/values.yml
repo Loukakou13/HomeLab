@@ -1,0 +1,35 @@
+global:
+  podAnnotations:
+    vault.hashicorp.com/agent-inject: "true"
+    vault.hashicorp.com/role: "authentik"
+    vault.hashicorp.com/agent-inject-secret-db.env: "infra/data/k8s/authentik/db"
+    vault.hashicorp.com/agent-inject-template-db.env: |
+      {{- with secret "infra/data/k8s/authentik/db" -}}
+      export AUTHENTIK_POSTGRESQL__USER='{{ .Data.data.username }}'
+      export AUTHENTIK_POSTGRESQL__PASSWORD='{{ .Data.data.password }}'
+      {{- end }}
+
+authentik:
+  secret_key: "PleaseGenerateASecureKey"
+  postgresql:
+    host: pg-cluster-rw.postgresql.svc.cluster.local
+    name: authentik
+
+server:
+  ingress:
+    enabled: true
+    ingressClassName: external
+    annotations:
+      cert-manager.io/cluster-issuer: "letsencrypt-dns"
+    hosts:
+      - authentik.loukawai.fr
+    tls:
+      - secretName: authentik-tls
+        hosts:
+          - authentik.loukawai.fr
+
+postgresql:
+  enabled: false
+
+redis:
+  enabled: false
