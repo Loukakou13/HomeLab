@@ -7,10 +7,10 @@ global:
       {{- with secret "infra/data/k8s/authentik/db" -}}
       export AUTHENTIK_POSTGRESQL__USER='{{ .Data.data.username }}'
       export AUTHENTIK_POSTGRESQL__PASSWORD='{{ .Data.data.password }}'
+      export AUTHENTIK_SECRET_KEY='{{ .Data.data.secret_key }}'
       {{- end }}
 
 authentik:
-  secret_key: "PleaseGenerateASecureKey"
   postgresql:
     host: pg-cluster-rw.postgresql.svc.cluster.local
     name: authentik
