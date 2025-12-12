@@ -9,7 +9,7 @@ spec:
   project: applications
   sources:
     - repoURL: https://github.com/Loukakou13/HomeLab.git
-      targetRevision: authentik
+      targetRevision: main
       path: gitops/manifests/authentik
   destination:
     server: "https://kubernetes.default.svc"
