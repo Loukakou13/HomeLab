@@ -9,3 +9,5 @@ ingress_nginx_controllers:
     ingress_class: internal
     service_type: LoadBalancer
     loadBalancerIP: 192.168.1.201
+    annotations:
+      metallb.universe.tf/allow-shared-ip: "internal-services"

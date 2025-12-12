@@ -15,4 +15,5 @@
         service:
           type: "{{ item.service_type }}"
           loadBalancerIP: "{{ item.loadBalancerIP | default(omit) }}"
+          annotations: "{{ item.annotations | default(omit) }}"
   loop: "{{ ingress_nginx_controllers }}"
