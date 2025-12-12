@@ -1,0 +1,57 @@
+isClusterService: false
+
+serviceType: LoadBalancer
+
+service:
+  annotations:
+    metallb.universe.tf/loadBalancerIPs: "192.168.1.201"
+  externalTrafficPolicy: Cluster
+
+servers:
+  - zones:
+      - zone: loukawai.fr
+    port: 53
+    plugins:
+      - name: log
+      - name: errors
+      - name: file
+        parameters: /etc/coredns/loukawai.fr.db
+
+  - zones:
+      - zone: .
+    port: 53
+    plugins:
+      - name: errors
+      - name: log
+      - name: forward
+        parameters: . 1.1.1.1 8.8.8.8
+      - name: cache
+        parameters: 30
+      - name: loop
+      - name: reload
+      - name: loadbalance
+
+zoneFiles:
+  - filename: loukawai.fr.db
+    domain: loukawai.fr
+    contents: |
+      $TTL 3600
+      @   IN SOA ns1.loukawai.fr. admin.loukawai.fr. (
+              2025121201 ; Serial
+              7200       ; Refresh
+              1800       ; Retry
+              1209600    ; Expire
+              3600 )     ; Minimum
+
+          IN NS  ns1.loukawai.fr.
+
+      ns1       IN A 192.168.1.201
+
+      jellyfin  IN A 192.168.1.201
+      argocd    IN A 192.168.1.201
+      vault     IN A 192.168.1.201
+      longhorn  IN A 192.168.1.201
+
+      @         IN A 192.168.1.200
+      netbird   IN A 192.168.1.200
+      authentik IN A 192.168.1.200
