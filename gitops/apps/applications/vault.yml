@@ -14,7 +14,7 @@ spec:
       helm:
         releaseName: vault
         valueFiles:
-          - $values/gitops/manifests/vault/helm/values.yml
+          - $values/gitops/manifests/vault/values.yml
     - repoURL: https://github.com/Loukakou13/HomeLab.git
       targetRevision: main
       ref: values
