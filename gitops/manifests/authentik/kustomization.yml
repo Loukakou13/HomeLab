@@ -3,22 +3,6 @@ kind: Kustomization
 
 namespace: authentik
 
-helmCharts:
-  - name: authentik
-    repo: https://charts.goauthentik.io
-    version: 2025.10.2
-    releaseName: authentik
-    namespace: authentik
-    valuesFile: values.yml
-
-patches:
-  - path: patch-authentik-server-vault.yml
-    target:
-      kind: Deployment
-      name: authentik-server
-      namespace: authentik
-  - path: patch-authentik-worker-vault.yml
-    target:
-      kind: Deployment
-      name: authentik-worker
-      namespace: authentik
+resources:
+  - vault_auth.yml
+  - vault_static_secret.yml

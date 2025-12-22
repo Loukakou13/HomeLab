@@ -1,0 +1,12 @@
+apiVersion: secrets.hashicorp.com/v1beta1
+kind: VaultAuth
+metadata:
+  name: authentik
+  namespace: authentik
+spec:
+  method: kubernetes
+  mount: kubernetes
+  kubernetes:
+    role: authentik
+    serviceAccount: authentik
+    tokenExpirationSeconds: 600
