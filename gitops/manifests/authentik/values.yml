@@ -1,14 +1,9 @@
 global:
-  podAnnotations:
-    vault.hashicorp.com/agent-inject: "true"
-    vault.hashicorp.com/role: "authentik"
-    vault.hashicorp.com/agent-inject-secret-db.env: "infra/data/k8s/authentik/db"
-    vault.hashicorp.com/agent-inject-template-db.env: |
-      {{- with secret "infra/data/k8s/authentik/db" -}}
-      export AUTHENTIK_POSTGRESQL__USER='{{ .Data.data.username }}'
-      export AUTHENTIK_POSTGRESQL__PASSWORD='{{ .Data.data.password }}'
-      export AUTHENTIK_SECRET_KEY='{{ .Data.data.secret_key }}'
-      {{- end }}
+  envFrom:
+    - secretRef:
+        name: authentik-postgres-credentials
+    - secretRef:
+        name: authentik-secret-key
 
 authentik:
   postgresql:
