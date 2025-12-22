@@ -1,9 +1,7 @@
 global:
   envFrom:
     - secretRef:
-        name: authentik-postgres-credentials
-    - secretRef:
-        name: authentik-secret-key
+        name: authentik-secrets
 
 authentik:
   postgresql:
