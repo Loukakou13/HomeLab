@@ -8,7 +8,7 @@ resource "authentik_provider_oauth2" "netbird" {
   allowed_redirect_uris = [
     {
       matching_mode = "regex",
-      url           = "https://netbird.loukawai.fr/.*",
+      url           = "https://dashboard.netbird.loukawai.fr/.*",
     },
     {
       matching_mode = "strict",

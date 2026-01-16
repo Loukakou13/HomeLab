@@ -1,0 +1,15 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: netbird-dashboard
+  namespace: netbird
+spec:
+  template:
+    spec:
+      containers:
+        - name: netbird
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              . /vault/secrets/secrets.env
+              exec /usr/bin/supervisord -c /etc/supervisord.conf
