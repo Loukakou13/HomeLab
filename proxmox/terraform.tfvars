@@ -28,4 +28,13 @@ vm_list = {
     gateway  = "192.168.1.1"
     tags     = ["test"]
   }
+  "wireguard" = {
+    hostname = "wireguard"
+    cores    = 2
+    sockets  = 1
+    memory   = 2048
+    address  = "192.168.1.3/24"
+    gateway  = "192.168.1.1"
+    tags     = ["wireguard", "vpn"]
+  }
 }
