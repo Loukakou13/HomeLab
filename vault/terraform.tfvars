@@ -15,7 +15,7 @@ kubernetes_roles = {
 
     policy = {
       kv2 = {
-        infra = ["k8s/authentik/db"]
+        infra = ["k8s/authentik/secrets"]
       }
     }
   }
