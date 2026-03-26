@@ -19,4 +19,14 @@ kubernetes_roles = {
       }
     }
   }
+  cloudflare-ddns = {
+    namespaces       = ["cloudflare-ddns"]
+    service_accounts = ["cloudflare-ddns"]
+
+    policy = {
+      kv2 = {
+        infra = ["k8s/cloudflare-ddns/secrets"]
+      }
+    }
+  }
 }
