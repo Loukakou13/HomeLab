@@ -24,5 +24,6 @@
     - cert_manager
     - metallb
     - ingress_nginx
+    - nginx_gateway_fabric
     - argocd
     - longhorn
