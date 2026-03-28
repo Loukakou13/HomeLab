@@ -1,13 +1,3 @@
-ingress:
-  enabled: true
-  annotations:
-    cert-manager.io/cluster-issuer: "letsencrypt-dns"
-    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-  ingressClassName: "internal"
-  host: longhorn.loukawai.fr
-  tls: true
-  tlsSecret: longhorn-tls
-
 httproute:
   enabled: true
   hostnames:

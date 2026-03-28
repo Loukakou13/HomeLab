@@ -17,17 +17,6 @@ server:
       parentRef:
         - name: external-nginx
           namespace: gateway-system
-  ingress:
-    enabled: true
-    ingressClassName: external
-    annotations:
-      cert-manager.io/cluster-issuer: "letsencrypt-dns"
-    hosts:
-      - authentik.loukawai.fr
-    tls:
-      - secretName: authentik-tls
-        hosts:
-          - authentik.loukawai.fr
 
 postgresql:
   enabled: false
