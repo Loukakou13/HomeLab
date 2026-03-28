@@ -9,6 +9,14 @@ authentik:
     name: authentik
 
 server:
+  route:
+    main:
+      enabled: true
+      hostnames:
+        - authentik.loukawai.fr
+      parentRef:
+        - name: external-nginx
+          namespace: gateway-system
   ingress:
     enabled: true
     ingressClassName: external
