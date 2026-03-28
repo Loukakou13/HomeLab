@@ -7,7 +7,7 @@ ingress:
     - host: homarr.loukawai.fr
       paths:
         - path: /
-  tls:       
+  tls:
     - secretName: homarr-tls
       hosts:
         - homarr.loukawai.fr

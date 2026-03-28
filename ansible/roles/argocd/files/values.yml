@@ -17,3 +17,10 @@ server:
       - hosts:
           - argocd.loukawai.fr
         secretName: argocd-tls
+  httproute:
+    enabled: true
+    hostnames:
+      - argocd.loukawai.fr
+    parentRef:
+      - name: internal-nginx
+        namespace: gateway-system

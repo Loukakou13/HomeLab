@@ -8,6 +8,14 @@ ingress:
   tls: true
   tlsSecret: longhorn-tls
 
+httproute:
+  enabled: true
+  hostnames:
+    - longhorn.loukawai.fr
+  parentRefs:
+    - name: internal-nginx
+      namespace: gateway-system
+
 persistence:
   recurringJobSelector:
     jobList:
