@@ -28,7 +28,8 @@
     create_namespace: true
     kubeconfig: "{{ kubeconfig_path }}"
     wait: true
-    values: "{{ lookup('file', 'values.yml') | from_yaml }}"
+    values_files:
+      - "{{ role_path }}/files/values.yml"
 
 - name: Create Longhorn default recurring backup job
   kubernetes.core.k8s:

@@ -1,0 +1,19 @@
+- name: Download Gateway API CRDs
+  ansible.builtin.get_url:
+    url: https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.5.0/standard-install.yaml
+    dest: /tmp/gateway-api-crds.yaml
+
+- name: Apply Gateway API CRDs
+  kubernetes.core.k8s:
+    state: present
+    src: /tmp/gateway-api-crds.yaml
+    kubeconfig: "{{ kubeconfig_path }}"
+
+- name: Deploy NGINX Gateway Fabric
+  kubernetes.core.helm:
+    name: nginx-gateway-fabric
+    chart_ref: oci://ghcr.io/nginx/charts/nginx-gateway-fabric
+    chart_version: 2.4.2
+    release_namespace: nginx-gateway-fabric
+    create_namespace: true
+    kubeconfig: "{{ kubeconfig_path }}"

@@ -8,6 +8,9 @@ metadata:
 spec:
   project: applications
   sources:
+    - repoURL: https://github.com/Loukakou13/HomeLab.git
+      targetRevision: main
+      path: gitops/manifests/vault
     - chart: vault
       repoURL: https://helm.releases.hashicorp.com
       targetRevision: 0.30.1

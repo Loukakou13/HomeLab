@@ -1,15 +1,2 @@
-server:
-  ingress:
-    enabled: true
-    annotations:
-      cert-manager.io/cluster-issuer: "letsencrypt-dns"
-    ingressClassName: internal
-    hosts:
-      - host: vault.loukawai.fr
-    tls:
-      - secretName: vault-tls
-        hosts:
-          - vault.loukawai.fr
-
 injector:
   enabled: true

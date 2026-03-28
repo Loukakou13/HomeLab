@@ -9,17 +9,14 @@ authentik:
     name: authentik
 
 server:
-  ingress:
-    enabled: true
-    ingressClassName: external
-    annotations:
-      cert-manager.io/cluster-issuer: "letsencrypt-dns"
-    hosts:
-      - authentik.loukawai.fr
-    tls:
-      - secretName: authentik-tls
-        hosts:
-          - authentik.loukawai.fr
+  route:
+    main:
+      enabled: true
+      hostnames:
+        - authentik.loukawai.fr
+      parentRefs:
+        - name: external-nginx
+          namespace: gateway-system
 
 postgresql:
   enabled: false

@@ -6,6 +6,9 @@ metadata:
 spec:
   project: applications
   sources:
+    - repoURL: https://github.com/Loukakou13/HomeLab.git
+      targetRevision: main
+      path: gitops/manifests/homarr
     - chart: homarr
       repoURL: https://homarr-labs.github.io/charts/
       targetRevision: 5.8.0
