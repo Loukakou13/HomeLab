@@ -10,6 +10,6 @@ server:
     enabled: true
     hostnames:
       - argocd.loukawai.fr
-    parentRef:
+    parentRefs:
       - name: internal-nginx
         namespace: gateway-system

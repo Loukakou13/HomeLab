@@ -8,7 +8,6 @@ spec:
   infrastructure:
     annotations:
       metallb.universe.tf/loadBalancerIPs: "192.168.1.201"
-      metallb.universe.tf/allow-shared-ip: "internal-services"
   listeners:
     - name: http
       port: 80
