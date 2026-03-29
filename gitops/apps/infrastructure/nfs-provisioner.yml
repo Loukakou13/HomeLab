@@ -18,7 +18,7 @@ spec:
       ref: values
   destination:
     server: "https://kubernetes.default.svc"
-    namespace: kube-system
+    namespace: nfs-provisioner
   syncPolicy:
     automated:
       prune: true
