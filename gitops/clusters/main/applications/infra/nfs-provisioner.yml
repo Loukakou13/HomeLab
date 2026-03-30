@@ -1,27 +1,24 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: homarr
+  name: nfs-provisioner
   namespace: argocd
 spec:
-  project: applications
+  project: infra
   sources:
-    - repoURL: https://github.com/Loukakou13/HomeLab.git
-      targetRevision: main
-      path: gitops/manifests/homarr
-    - chart: homarr
-      repoURL: https://homarr-labs.github.io/charts/
-      targetRevision: 5.8.0
+    - chart: nfs-subdir-external-provisioner
+      repoURL: https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner
+      targetRevision: 4.0.18
       helm:
-        releaseName: homarr
+        releaseName: nfs-provisioner
         valueFiles:
-          - $values/gitops/manifests/homarr/values.yml
+          - $values/gitops/infra/nfs-provisioner/values.yml
     - repoURL: https://github.com/Loukakou13/HomeLab.git
       targetRevision: main
       ref: values
   destination:
     server: "https://kubernetes.default.svc"
-    namespace: homarr
+    namespace: nfs-provisioner
   syncPolicy:
     automated:
       prune: true

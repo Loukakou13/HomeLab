@@ -1,29 +1,27 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: authentik
+  name: homarr
   namespace: argocd
-  annotations:
-    argocd.argoproj.io/sync-wave: "-1"
 spec:
-  project: applications
+  project: apps
   sources:
     - repoURL: https://github.com/Loukakou13/HomeLab.git
       targetRevision: main
-      path: gitops/manifests/authentik
-    - chart: authentik
-      repoURL: https://charts.goauthentik.io
-      targetRevision: 2025.10.2
+      path: gitops/apps/homarr
+    - chart: homarr
+      repoURL: https://homarr-labs.github.io/charts/
+      targetRevision: 5.8.0
       helm:
-        releaseName: authentik
+        releaseName: homarr
         valueFiles:
-          - $values/gitops/manifests/authentik/values.yml
+          - $values/gitops/apps/homarr/values.yml
     - repoURL: https://github.com/Loukakou13/HomeLab.git
       targetRevision: main
       ref: values
   destination:
     server: "https://kubernetes.default.svc"
-    namespace: authentik
+    namespace: homarr
   syncPolicy:
     automated:
       prune: true

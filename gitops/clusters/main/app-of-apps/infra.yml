@@ -1,14 +1,16 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: bootstrap
+  name: infra
   namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
 spec:
-  project: default
+  project: infra
   source:
-    repoURL: https://github.com/Loukakou13/HomeLab.git
+    repoURL: git@github.com:Loukakou13/HomeLab.git
     targetRevision: main
-    path: gitops/bootstrap
+    path: gitops/clusters/main/applications/infra/
     directory:
       recurse: true
   destination:
@@ -18,5 +20,3 @@ spec:
     automated:
       prune: true
       selfHeal: true
-  directory:
-    recurse: true

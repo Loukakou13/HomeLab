@@ -1,28 +1,27 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: cnpg
+  name: coredns
   namespace: argocd
 spec:
-  project: applications
+  project: apps
   sources:
-    - chart: cloudnative-pg
-      repoURL: https://cloudnative-pg.github.io/charts
-      targetRevision: 0.26.1
+    - chart: coredns
+      repoURL: https://coredns.github.io/helm
+      targetRevision: 1.45.0
       helm:
-        releaseName: cnpg
+        releaseName: coredns
         valueFiles:
-          - $values/gitops/manifests/cnpg/values.yml
+          - $values/gitops/apps/coredns/values.yml
     - repoURL: https://github.com/Loukakou13/HomeLab.git
       targetRevision: main
       ref: values
   destination:
     server: "https://kubernetes.default.svc"
-    namespace: cnpg-system
+    namespace: coredns
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
-      - ServerSideApply=true

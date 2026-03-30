@@ -1,17 +1,17 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: postgresql
+  name: gateway
   namespace: argocd
 spec:
-  project: applications
+  project: infra
   sources:
     - repoURL: https://github.com/Loukakou13/HomeLab.git
       targetRevision: main
-      path: gitops/manifests/postgresql
+      path: gitops/infra/gateway
   destination:
     server: "https://kubernetes.default.svc"
-    namespace: postgresql
+    namespace: gateway-system
   syncPolicy:
     automated:
       prune: true

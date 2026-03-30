@@ -1,10 +1,10 @@
 apiVersion: argoproj.io/v1alpha1
-kind: AppProject 
+kind: AppProject
 metadata:
-  name: applications
+  name: infra
   namespace: argocd
 spec:
-  description: Applications components
+  description: Core infrastructure components
   sourceRepos:
     - "*"
   destinations:

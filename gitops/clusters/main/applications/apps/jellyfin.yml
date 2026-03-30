@@ -1,24 +1,17 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: coredns
+  name: jellyfin
   namespace: argocd
 spec:
-  project: applications
+  project: apps
   sources:
-    - chart: coredns
-      repoURL: https://coredns.github.io/helm
-      targetRevision: 1.45.0
-      helm:
-        releaseName: coredns
-        valueFiles:
-          - $values/gitops/manifests/coredns/values.yml
     - repoURL: https://github.com/Loukakou13/HomeLab.git
       targetRevision: main
-      ref: values
+      path: gitops/apps/jellyfin
   destination:
     server: "https://kubernetes.default.svc"
-    namespace: coredns
+    namespace: jellyfin
   syncPolicy:
     automated:
       prune: true

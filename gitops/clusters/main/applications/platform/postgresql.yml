@@ -1,17 +1,17 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: cloudflare-ddns
+  name: postgresql
   namespace: argocd
 spec:
-  project: applications
+  project: platform
   sources:
     - repoURL: https://github.com/Loukakou13/HomeLab.git
       targetRevision: main
-      path: gitops/manifests/cloudflare-ddns
+      path: gitops/platform/postgresql
   destination:
     server: "https://kubernetes.default.svc"
-    namespace: cloudflare-ddns
+    namespace: postgresql
   syncPolicy:
     automated:
       prune: true
