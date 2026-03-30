@@ -1,17 +1,17 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: jellyfin
+  name: postgresql
   namespace: argocd
 spec:
   project: applications
   sources:
     - repoURL: https://github.com/Loukakou13/HomeLab.git
       targetRevision: main
-      path: gitops/manifests/jellyfin
+      path: gitops/platform/postgresql
   destination:
     server: "https://kubernetes.default.svc"
-    namespace: jellyfin
+    namespace: postgresql
   syncPolicy:
     automated:
       prune: true

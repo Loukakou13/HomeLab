@@ -1,16 +1,16 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: projects
+  name: infra
   namespace: argocd
   annotations:
-    argocd.argoproj.io/sync-wave: "0"
+    argocd.argoproj.io/sync-wave: "1"
 spec:
-  project: default
+  project: infra
   source:
     repoURL: git@github.com:Loukakou13/HomeLab.git
     targetRevision: main
-    path: gitops/projects
+    path: gitops/clusters/main/applications/infra/
     directory:
       recurse: true
   destination:

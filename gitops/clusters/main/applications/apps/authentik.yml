@@ -10,14 +10,14 @@ spec:
   sources:
     - repoURL: https://github.com/Loukakou13/HomeLab.git
       targetRevision: main
-      path: gitops/manifests/authentik
+      path: gitops/apps/authentik
     - chart: authentik
       repoURL: https://charts.goauthentik.io
       targetRevision: 2025.10.2
       helm:
         releaseName: authentik
         valueFiles:
-          - $values/gitops/manifests/authentik/values.yml
+          - $values/gitops/apps/authentik/values.yml
     - repoURL: https://github.com/Loukakou13/HomeLab.git
       targetRevision: main
       ref: values

@@ -1,10 +1,10 @@
 apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
-  name: monitoring
+  name: apps
   namespace: argocd
 spec:
-  description: Monitoring components
+  description: Applications components
   sourceRepos:
     - "*"
   destinations:

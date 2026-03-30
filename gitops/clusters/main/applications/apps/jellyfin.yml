@@ -1,17 +1,17 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: gateway
+  name: jellyfin
   namespace: argocd
 spec:
   project: applications
   sources:
     - repoURL: https://github.com/Loukakou13/HomeLab.git
       targetRevision: main
-      path: gitops/manifests/gateway
+      path: gitops/apps/jellyfin
   destination:
     server: "https://kubernetes.default.svc"
-    namespace: gateway-system
+    namespace: jellyfin
   syncPolicy:
     automated:
       prune: true

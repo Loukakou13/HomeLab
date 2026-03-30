@@ -1,27 +1,29 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: homarr
+  name: vault
   namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
 spec:
   project: applications
   sources:
     - repoURL: https://github.com/Loukakou13/HomeLab.git
       targetRevision: main
-      path: gitops/manifests/homarr
-    - chart: homarr
-      repoURL: https://homarr-labs.github.io/charts/
-      targetRevision: 5.8.0
+      path: gitops/apps/vault
+    - chart: vault
+      repoURL: https://helm.releases.hashicorp.com
+      targetRevision: 0.30.1
       helm:
-        releaseName: homarr
+        releaseName: vault
         valueFiles:
-          - $values/gitops/manifests/homarr/values.yml
+          - $values/gitops/apps/vault/values.yml
     - repoURL: https://github.com/Loukakou13/HomeLab.git
       targetRevision: main
       ref: values
   destination:
     server: "https://kubernetes.default.svc"
-    namespace: homarr
+    namespace: vault
   syncPolicy:
     automated:
       prune: true

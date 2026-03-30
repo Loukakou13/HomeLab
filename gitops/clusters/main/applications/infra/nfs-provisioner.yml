@@ -1,24 +1,24 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: coredns
+  name: nfs-provisioner
   namespace: argocd
 spec:
   project: applications
   sources:
-    - chart: coredns
-      repoURL: https://coredns.github.io/helm
-      targetRevision: 1.45.0
+    - chart: nfs-subdir-external-provisioner
+      repoURL: https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner
+      targetRevision: 4.0.18
       helm:
-        releaseName: coredns
+        releaseName: nfs-provisioner
         valueFiles:
-          - $values/gitops/manifests/coredns/values.yml
+          - $values/gitops/infra/nfs-provisioner/values.yml
     - repoURL: https://github.com/Loukakou13/HomeLab.git
       targetRevision: main
       ref: values
   destination:
     server: "https://kubernetes.default.svc"
-    namespace: coredns
+    namespace: nfs-provisioner
   syncPolicy:
     automated:
       prune: true

@@ -1,28 +1,30 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: vault-secrets-operator
+  name: homarr
   namespace: argocd
 spec:
   project: applications
   sources:
-    - chart: vault-secrets-operator
-      repoURL: https://helm.releases.hashicorp.com
-      targetRevision: 1.1.0
+    - repoURL: https://github.com/Loukakou13/HomeLab.git
+      targetRevision: main
+      path: gitops/apps/homarr
+    - chart: homarr
+      repoURL: https://homarr-labs.github.io/charts/
+      targetRevision: 5.8.0
       helm:
-        releaseName: vault-secrets-operator
+        releaseName: homarr
         valueFiles:
-          - $values/gitops/manifests/vault-secrets-operator/values.yml
+          - $values/gitops/apps/homarr/values.yml
     - repoURL: https://github.com/Loukakou13/HomeLab.git
       targetRevision: main
       ref: values
   destination:
     server: "https://kubernetes.default.svc"
-    namespace: vault-secrets-operator
+    namespace: homarr
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
-      - ServerSideApply=true

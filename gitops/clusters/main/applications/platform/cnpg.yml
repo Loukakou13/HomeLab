@@ -12,7 +12,7 @@ spec:
       helm:
         releaseName: cnpg
         valueFiles:
-          - $values/gitops/manifests/cnpg/values.yml
+          - $values/gitops/platform/cnpg/values.yml
     - repoURL: https://github.com/Loukakou13/HomeLab.git
       targetRevision: main
       ref: values
