@@ -4,7 +4,7 @@ metadata:
   name: nfs-provisioner
   namespace: argocd
 spec:
-  project: applications
+  project: infra
   sources:
     - chart: nfs-subdir-external-provisioner
       repoURL: https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner

@@ -4,7 +4,7 @@ metadata:
   name: homarr
   namespace: argocd
 spec:
-  project: applications
+  project: apps
   sources:
     - repoURL: https://github.com/Loukakou13/HomeLab.git
       targetRevision: main
