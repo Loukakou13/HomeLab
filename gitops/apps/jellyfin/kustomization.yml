@@ -4,11 +4,9 @@ kind: Kustomization
 namespace: jellyfin
 
 resources:
-  - namespace.yml
+  - deployment.yml
+  - http-route.yml
   - pvc-config.yml
   - pvc-media.yml
   - pv-media.yml
-  - deployment.yml
   - service.yml
-  - ingress.yml
-  - http-route.yml
