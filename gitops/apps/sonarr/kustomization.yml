@@ -1,11 +1,12 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
-namespace: jellyfin
+namespace: sonarr
 
 resources:
   - deployment.yml
   - http-route.yml
   - pvc-config.yml
   - pvc-media.yml
+  - pv-media.yml
   - service.yml

@@ -1,25 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: jellyfin
+  name: sonarr
   labels:
-    app: jellyfin
+    app: sonarr
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: jellyfin
+      app: sonarr
   template:
     metadata:
       labels:
-        app: jellyfin
+        app: sonarr
     spec:
       containers:
-        - name: jellyfin
-          image: jellyfin/jellyfin:10.11.4
-          imagePullPolicy: IfNotPresent
+        - name: sonarr
+          image: linuxserver/sonarr:latest
           ports:
-            - containerPort: 8096
+            - containerPort: 8989
               name: http
           env:
             - name: TZ
@@ -29,22 +28,22 @@ spec:
               mountPath: /config
             - name: shows
               mountPath: /shows
-            - name: movies
-              mountPath: /movies
+            - name: downloads
+              mountPath: /downloads
           resources:
             requests:
               cpu: "500m"
               memory: "1Gi"
             limits:
-              cpu: "3000m"
-              memory: "4Gi"
+              cpu: "1000m"
+              memory: "2Gi"
       volumes:
         - name: config
           persistentVolumeClaim:
-            claimName: jellyfin-config
-        - name: movies
-          persistentVolumeClaim:
-            claimName: pvc-jellyfin-media-movies
+            claimName: sonarr-config
         - name: shows
           persistentVolumeClaim:
-            claimName: pvc-jellyfin-media-shows
+            claimName: pvc-sonarr-media-shows
+        - name: downloads
+          persistentVolumeClaim:
+            claimName: pvc-sonarr-media-downloads
