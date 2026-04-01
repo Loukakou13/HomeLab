@@ -1,25 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: jellyfin
+  name: radarr
   labels:
-    app: jellyfin
+    app: radarr
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: jellyfin
+      app: radarr
   template:
     metadata:
       labels:
-        app: jellyfin
+        app: radarr
     spec:
       containers:
-        - name: jellyfin
-          image: jellyfin/jellyfin:10.11.7
-          imagePullPolicy: IfNotPresent
+        - name: radarr
+          image: linuxserver/radarr:latest
           ports:
-            - containerPort: 8096
+            - containerPort: 7878
               name: http
           env:
             - name: TZ
@@ -27,26 +26,26 @@ spec:
           volumeMounts:
             - name: config
               mountPath: /config
-            - name: shows
-              mountPath: /shows
             - name: movies
               mountPath: /movies
+            - name: downloads
+              mountPath: /downloads
           resources:
             requests:
               cpu: "500m"
               memory: "1Gi"
             limits:
-              cpu: "3000m"
-              memory: "4Gi"
+              cpu: "1000m"
+              memory: "2Gi"
       volumes:
         - name: config
           persistentVolumeClaim:
-            claimName: jellyfin-config
+            claimName: radarr-config
         - name: movies
           nfs:
             server: 192.168.1.39
             path: /volume1/HomeLab-NFS/media/movies
-        - name: shows
+        - name: downloads
           nfs:
             server: 192.168.1.39
-            path: /volume1/HomeLab-NFS/media/shows
+            path: /volume1/HomeLab-NFS/media/downloads
