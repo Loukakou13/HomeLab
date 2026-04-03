@@ -39,4 +39,6 @@ spec:
           persistentVolumeClaim:
             claimName: qbittorrent-config
         - name: downloads
-          emptyDir: {}
+          nfs:
+            server: 192.168.1.39
+            path: /volume1/HomeLab-NFS/media/downloads

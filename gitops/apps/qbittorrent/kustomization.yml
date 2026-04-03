@@ -7,6 +7,4 @@ resources:
   - deployment.yml
   - http-route.yml
   - pvc-config.yml
-  - pvc-media.yml
-  - pv-media.yml
   - service.yml
