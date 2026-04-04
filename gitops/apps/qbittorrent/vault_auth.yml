@@ -1,0 +1,12 @@
+apiVersion: secrets.hashicorp.com/v1beta1
+kind: VaultAuth
+metadata:
+  name: qbittorrent
+  namespace: qbittorrent
+spec:
+  method: kubernetes
+  mount: kubernetes
+  kubernetes:
+    role: qbittorrent
+    serviceAccount: qbittorrent
+    tokenExpirationSeconds: 600

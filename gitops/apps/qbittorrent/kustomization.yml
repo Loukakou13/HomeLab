@@ -7,4 +7,7 @@ resources:
   - deployment.yml
   - http-route.yml
   - pvc-config.yml
+  - service-account.yml
   - service.yml
+  - vault_auth.yml
+  - vault_static_secret.yml
