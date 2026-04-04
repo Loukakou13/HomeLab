@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: qbittorrent
+  labels:
+    app: qbittorrent
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: qbittorrent
+  template:
+    metadata:
+      labels:
+        app: qbittorrent
+    spec:
+      serviceAccountName: qbittorrent
+      containers:
+        - name: gluetun
+          image: qmcgaw/gluetun:v3.41.1
+          securityContext:
+            capabilities:
+              add:
+                - NET_ADMIN
+          env:
+            - name: VPN_SERVICE_PROVIDER
+              value: protonvpn
+            - name: VPN_TYPE
+              value: wireguard
+            - name: SERVER_COUNTRIES
+              value: Germany
+            - name: SERVER_CITIES
+              value: Frankfurt
+            - name: PORT_FORWARD_ONLY
+              value: on
+            - name: TZ
+              value: Europe/Paris
+          envFrom:
+            - secretRef:
+                name: gluetun-secrets
+          ports:
+            - name: http
+              containerPort: 8080
+        - name: qbittorrent
+          image: linuxserver/qbittorrent:latest
+          ports:
+            - containerPort: 8080
+              name: http
+            - containerPort: 6881
+              protocol: TCP
+            - containerPort: 6881
+              protocol: UDP
+          env:
+            - name: TZ
+              value: Europe/Paris
+            - name: WEBUI_PORT
+              value: "8080"
+          volumeMounts:
+            - name: config
+              mountPath: /config
+            - name: downloads
+              mountPath: /downloads
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: qbittorrent-config
+        - name: downloads
+          nfs:
+            server: 192.168.1.39
+            path: /volume1/HomeLab-NFS/media/downloads

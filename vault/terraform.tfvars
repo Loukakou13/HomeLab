@@ -29,4 +29,14 @@ kubernetes_roles = {
       }
     }
   }
+  qbittorrent = {
+    namespaces       = ["qbittorrent"]
+    service_accounts = ["qbittorrent"]
+
+    policy = {
+      kv2 = {
+        infra = ["k8s/qbittorrent/gluetun"]
+      }
+    }
+  }
 }
