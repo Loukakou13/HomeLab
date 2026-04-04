@@ -15,7 +15,7 @@
     cmd: >
       /tmp/k3s-install.sh server
       --cluster-init
-      -node-ip {{ ansible_default_ipv4.address }}
+      --node-ip {{ ansible_default_ipv4.address }}
       --tls-san {{ k3s_vip }}
       --disable-cloud-controller
       --disable traefik
