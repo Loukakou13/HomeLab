@@ -37,7 +37,7 @@ spec:
               value: Europe/Paris
           envFrom:
             - secretRef:
-              name: gluetun-secrets
+                name: gluetun-secrets
           ports:
             - name: http
               containerPort: 8080
