@@ -42,5 +42,5 @@
         name: default
         namespace: metallb-system
       spec:
-        IPAddressPools:
+        ipAddressPools:
           - default-pool
