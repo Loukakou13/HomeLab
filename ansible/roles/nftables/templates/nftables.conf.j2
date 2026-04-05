@@ -3,7 +3,7 @@ flush ruleset
 table ip filter {
   chain input {
       type filter hook input priority filter;
-      policy {{ firewall_default_policy.incoming }};
+      policy {{ 'accept' if firewall_default_policy.incoming == 'allow' else 'drop' }};
 
       ct state { established,related } accept;
 
@@ -19,7 +19,7 @@ table ip filter {
 
   chain forward {
     type filter hook forward priority filter;
-    policy {{ firewall_default_policy.routed }};
+    policy {{ 'accept' if firewall_default_policy.routed == 'allow' else 'drop' }};
 
     ct state { established,related } accept;
 
@@ -30,7 +30,7 @@ table ip filter {
 
   chain output {
     type filter hook output priority filter;
-    policy {{ firewall_default_policy.outcoming }};
+    policy {{ 'accept' if firewall_default_policy.outgoing == 'allow' else 'drop' }};
   }
 }
 
@@ -38,7 +38,7 @@ table ip nat {
   chain postrouting {
     type nat hook postrouting priority srcnat;
     {% for rule in firewall_rules if rule.chain == 'postrouting' %}
-    oif {{ rule.eth0 }} {{ rule.nat }};
+    oif {{ rule.oif }} {{ rule.nat }};
     {% endfor %}
   }
 }
