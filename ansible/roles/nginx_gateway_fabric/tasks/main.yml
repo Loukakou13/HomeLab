@@ -17,3 +17,5 @@
     release_namespace: nginx-gateway-fabric
     create_namespace: true
     kubeconfig: "{{ kubeconfig_path }}"
+    values_files:
+      - "{{ role_path }}/files/values.yml"
