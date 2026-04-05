@@ -33,9 +33,6 @@
   register: wireguard_client_public_key_cmd
   changed_when: false
 
-- debug:
-    var: wireguard_client_public_key_cmd.stdout
-
 - name: Append client public key to list
   ansible.builtin.set_fact:
     wireguard_clients_public_keys: >-

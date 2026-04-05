@@ -11,8 +11,9 @@
   when: not wireguard_server_private_key_stat.stat.exists
 
 - name: Save server private key
+  become: true
   ansible.builtin.copy:
-    content: "{{ wireguard_server_private_key.stdout }}"
+    content: "{{ wireguard_server_private_key_cmd.stdout }}"
     dest: "{{ wireguard_config_dir }}/server_private.key"
     mode: '0600'
   when: wireguard_server_private_key_cmd.stdout is defined
