@@ -8,7 +8,7 @@ metadata:
 spec:
   project: apps
   source:
-    repoURL: git@github.com:Loukakou13/HomeLab.git
+    repoURL: https://github.com/Loukakou13/HomeLab.git
     targetRevision: main
     path: gitops/clusters/main/applications/apps/
     directory:
