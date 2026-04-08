@@ -22,6 +22,5 @@
     - kube_vip
     - cert_manager
     - metallb
-    - nginx_gateway_fabric
     - argocd
     - longhorn

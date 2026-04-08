@@ -1,0 +1,27 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: nginx-gateway-fabric
+  namespace: argocd
+spec:
+  project: infra
+  sources:
+    - chart: nginx-gateway-fabric
+      repoURL: ghcr.io/nginx/charts
+      targetRevision: 2.4.2
+      helm:
+        releaseName: nginx-gateway-fabric
+        valueFiles:
+          - $values/gitops/infra/nginx-gateway-fabric/values.yml
+    - repoURL: https://github.com/Loukakou13/HomeLab.git
+      targetRevision: main
+      ref: values
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: nginx-gateway-fabric
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
