@@ -21,6 +21,5 @@
     - cilium
     - kube_vip
     - cert_manager
-    - metallb
     - argocd
     - longhorn
