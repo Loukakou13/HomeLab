@@ -6,18 +6,18 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "-1"
 spec:
-  project: apps
+  project: platform
   sources:
     - repoURL: https://github.com/Loukakou13/HomeLab.git
       targetRevision: main
-      path: gitops/apps/vault
+      path: gitops/platform/vault
     - chart: vault
       repoURL: https://helm.releases.hashicorp.com
       targetRevision: 0.30.1
       helm:
         releaseName: vault
         valueFiles:
-          - $values/gitops/apps/vault/values.yml
+          - $values/gitops/platform/vault/values.yml
     - repoURL: https://github.com/Loukakou13/HomeLab.git
       targetRevision: main
       ref: values
