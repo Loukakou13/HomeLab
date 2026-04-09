@@ -1,0 +1,27 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cert-manager
+  namespace: argocd
+spec:
+  project: infra
+  sources:
+    - chart: cert-manager
+      repoURL: quay.io/jetstack/charts
+      targetRevision: v1.18.2
+      helm:
+        releaseName: cert-manager
+        valueFiles:
+          - $values/gitops/infra/cert-manager/values.yml
+    - repoURL: https://github.com/Loukakou13/HomeLab.git
+      targetRevision: main
+      ref: values
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: cert-manager
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
