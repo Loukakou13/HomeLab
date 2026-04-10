@@ -4,7 +4,7 @@ metadata:
   name: homarr
 spec:
   parentRefs:
-    - name: internal-nginx
+    - name: nginx-int-pub
       namespace: gateway-system
   hostnames:
     - "homarr.loukawai.fr"

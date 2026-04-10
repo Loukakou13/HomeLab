@@ -1,13 +1,13 @@
 apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
-  name: internal-nginx
+  name: nginx-ext-pub
   namespace: gateway
 spec:
   gatewayClassName: nginx
   infrastructure:
     annotations:
-      metallb.io/loadBalancerIPs: "192.168.1.201"
+      metallb.io/loadBalancerIPs: "192.168.1.200"
   listeners:
     - name: http
       port: 80
