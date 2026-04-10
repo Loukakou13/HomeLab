@@ -2,7 +2,6 @@ apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: nginx-ext-pub
-  namespace: gateway
 spec:
   gatewayClassName: nginx
   infrastructure:
@@ -19,13 +18,8 @@ spec:
       port: 443
       protocol: HTTPS
       allowedRoutes:
-        kinds:
-          - kind: HTTPRoute
         namespaces:
-          from: Selector
-          selector:
-            matchLabels:
-              expose-apps: "true"
+          from: All
       tls:
         mode: Terminate
         certificateRefs:
