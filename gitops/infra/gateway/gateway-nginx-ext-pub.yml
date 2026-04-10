@@ -14,13 +14,18 @@ spec:
       protocol: HTTP
       allowedRoutes:
         namespaces:
-          from: All
+          from: Same
     - name: https
       port: 443
       protocol: HTTPS
       allowedRoutes:
+        kinds:
+          - kind: HTTPRoute
         namespaces:
-          from: All
+          from: Selector
+          selector:
+            matchLabels:
+              expose-apps: "true"
       tls:
         mode: Terminate
         certificateRefs:
