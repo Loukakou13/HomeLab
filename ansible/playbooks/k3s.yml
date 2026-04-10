@@ -20,4 +20,3 @@
     - kube_vip
     - cert_manager
     - argocd
-    - longhorn

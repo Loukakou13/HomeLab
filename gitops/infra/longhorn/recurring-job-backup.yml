@@ -1,0 +1,11 @@
+apiVersion: longhorn.io/v1beta2
+kind: RecurringJob
+metadata:
+  name: every-3-days
+spec:
+  cron: 0 4 */3 * *
+  task: backup
+  retain: 4
+  concurrency: 1
+  groups:
+    - every-3-days
