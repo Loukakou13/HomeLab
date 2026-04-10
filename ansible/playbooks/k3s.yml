@@ -1,8 +1,6 @@
 - name: Init the first master node
   hosts: k3s-m-1
   become: true
-  vars:
-    keepalived_state: MASTER
   roles:
     - k3s
 
