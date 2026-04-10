@@ -1,8 +1,6 @@
 - name: Init the first master node
   hosts: k3s-m-1
   become: true
-  vars:
-    keepalived_state: MASTER
   roles:
     - k3s
 
@@ -21,7 +19,4 @@
     - cilium
     - kube_vip
     - cert_manager
-    - metallb
-    - nginx_gateway_fabric
     - argocd
-    - longhorn

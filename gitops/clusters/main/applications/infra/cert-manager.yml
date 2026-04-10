@@ -1,29 +1,24 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: vault
+  name: cert-manager
   namespace: argocd
-  annotations:
-    argocd.argoproj.io/sync-wave: "-1"
 spec:
-  project: apps
+  project: infra
   sources:
-    - repoURL: https://github.com/Loukakou13/HomeLab.git
-      targetRevision: main
-      path: gitops/apps/vault
-    - chart: vault
-      repoURL: https://helm.releases.hashicorp.com
-      targetRevision: 0.30.1
+    - chart: cert-manager
+      repoURL: quay.io/jetstack/charts
+      targetRevision: v1.18.2
       helm:
-        releaseName: vault
+        releaseName: cert-manager
         valueFiles:
-          - $values/gitops/apps/vault/values.yml
+          - $values/gitops/infra/cert-manager/values.yml
     - repoURL: https://github.com/Loukakou13/HomeLab.git
       targetRevision: main
       ref: values
   destination:
     server: "https://kubernetes.default.svc"
-    namespace: vault
+    namespace: cert-manager
   syncPolicy:
     automated:
       prune: true

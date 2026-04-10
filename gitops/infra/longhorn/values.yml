@@ -1,0 +1,17 @@
+httproute:
+  enabled: true
+  hostnames:
+    - longhorn.loukawai.fr
+  parentRefs:
+    - name: internal-nginx
+      namespace: gateway-system
+
+persistence:
+  recurringJobSelector:
+    jobList:
+      - name: every-3-days
+        isGroup: true
+
+defaultBackupStore:
+  backupTarget: "nfs://192.168.1.39:/volume1/HomeLab-NFS/k8s"
+  pollInterval: 300
