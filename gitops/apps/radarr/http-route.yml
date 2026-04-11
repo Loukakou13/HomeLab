@@ -4,7 +4,7 @@ metadata:
   name: radarr
 spec:
   parentRefs:
-    - name: internal-nginx
+    - name: nginx-int-pub
       namespace: gateway-system
   hostnames:
     - "radarr.loukawai.fr"

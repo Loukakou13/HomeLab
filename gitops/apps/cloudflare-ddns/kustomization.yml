@@ -4,7 +4,6 @@ kind: Kustomization
 namespace: cloudflare-ddns
 
 resources:
-  - namespace.yml
   - deployment.yml
   - service-account.yml
   - vault-auth.yml

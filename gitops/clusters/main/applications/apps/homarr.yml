@@ -26,5 +26,8 @@ spec:
     automated:
       prune: true
       selfHeal: true
+    managedNamespaceMetadata:
+      labels:
+        gateway-nginx-int-pub: true
     syncOptions:
       - CreateNamespace=true
