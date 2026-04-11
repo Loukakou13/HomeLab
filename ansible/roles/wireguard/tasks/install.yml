@@ -1,0 +1,16 @@
+- name: Install WireGuard
+  ansible.builtin.package:
+    name: wireguard
+    state: present
+
+- name: Create config directory
+  ansible.builtin.file:
+    path: "{{ wireguard_config_dir }}"
+    state: directory
+    mode: '0700'
+
+- name: Create clients directory
+  ansible.builtin.file:
+    path: "{{ wireguard_clients_output_dir }}"
+    state: directory
+    mode: '0700'
