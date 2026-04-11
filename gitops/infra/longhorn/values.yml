@@ -3,7 +3,7 @@ httproute:
   hostnames:
     - longhorn.loukawai.fr
   parentRefs:
-    - name: internal-nginx
+    - name: nginx-int-priv
       namespace: gateway-system
 
 persistence:
