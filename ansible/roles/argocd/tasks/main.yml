@@ -9,3 +9,14 @@
     kubeconfig: "{{ kubeconfig_path }}"
     values_files:
       - "{{ role_path }}/files/values.yml"
+
+- name: Download Argo CD root App manifest
+  ansible.builtin.get_url:
+    url: "{{ argocd_root_app_url }}"
+    dest: /tmp/argocd-root.yml
+    mode: '0664'
+
+- name: Apply Argo CD root App manifest
+  kubernetes.core.k8s:
+    state: present
+    src: /tmp/argocd-root.yml

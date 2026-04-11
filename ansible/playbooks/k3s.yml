@@ -15,6 +15,7 @@
   hosts: localhost
   vars:
     kubeconfig_path: /tmp/k3s.yml
+    argocd_root_app_url: https://raw.githubusercontent.com/Loukakou13/HomeLab/refs/heads/main/gitops/clusters/main/root.yml
   roles:
     - cilium
     - kube_vip
