@@ -15,7 +15,7 @@ server:
       hostnames:
         - authentik.loukawai.fr
       parentRefs:
-        - name: external-nginx
+        - name: nginx-ext-pub
           namespace: gateway-system
 
 postgresql:

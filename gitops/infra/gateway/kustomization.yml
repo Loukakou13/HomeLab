@@ -4,7 +4,8 @@ kind: Kustomization
 namespace: gateway-system
 
 resources:
-  - namespace.yml
   - certificate.yml
-  - gateway-external-nginx.yml
-  - gateway-internal-nginx.yml
+  - gateway-nginx-ext-pub.yml
+  - gateway-nginx-int-pub.yml
+  - gateway-nginx-int-priv.yml
+  - http-route-redirect-http-to-https.yml
