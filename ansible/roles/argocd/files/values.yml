@@ -1,15 +1,3 @@
-global:
-  domain: argocd.loukawai.fr
 configs:
-  params:
-    server.insecure: true
   cm:
     kustomize.buildOptions: "--enable-helm"
-server:
-  httproute:
-    enabled: true
-    hostnames:
-      - argocd.loukawai.fr
-    parentRefs:
-      - name: internal-nginx
-        namespace: gateway-system
