@@ -1,7 +1,7 @@
 apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
-  name: nginx-int-pub
+  name: nginx-int-priv
 spec:
   gatewayClassName: nginx
   infrastructure:
@@ -18,8 +18,13 @@ spec:
       port: 443
       protocol: HTTPS
       allowedRoutes:
+        kinds:
+          - kind: HTTPRoute
         namespaces:
-          from: All
+          from: Selector
+          selector:
+            matchLabels:
+              gateway-nginx-int-priv: "true"
       tls:
         mode: Terminate
         certificateRefs:
