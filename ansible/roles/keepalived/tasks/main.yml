@@ -12,8 +12,6 @@
     mode: '0644'
   notify: Restart keepalived
   when: k3s_node_role == "server"
-  vars:
-    keepalived_priority: "{{ keepalived_base_priority - (inventory_hostname | regex_search('\\d+$') | int * 10) }}"
 
 - name: Ensure the keepalived is running correctly
   ansible.builtin.service:
