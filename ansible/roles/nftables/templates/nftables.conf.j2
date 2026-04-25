@@ -1,0 +1,44 @@
+flush ruleset
+
+table ip filter {
+  chain input {
+      type filter hook input priority filter;
+      policy {{ 'accept' if firewall_default_policy.incoming == 'allow' else 'drop' }};
+
+      ct state { established,related } accept;
+
+      icmp type { echo-request, echo-reply } accept comment "allow ping";
+
+      tcp dport 22 counter accept comment "ssh connections";
+
+      {% for rule in firewall_rules if rule.chain is not defined or rule.chain == 'input' %}
+      {{ rule.proto }} dport {{ rule.port }} counter accept comment "{{ rule.comment }}";
+      {% endfor %}
+      udp dport 51820 counter accept comment "wireguard connection";
+  }
+
+  chain forward {
+    type filter hook forward priority filter;
+    policy {{ 'accept' if firewall_default_policy.routed == 'allow' else 'drop' }};
+
+    ct state { established,related } accept;
+
+    {% for rule in firewall_rules if rule.chain == 'forward' %}
+    iifname "{{ rule.iifname }}" accept comment "{{ rule.comment }}";
+    {% endfor %}
+  }
+
+  chain output {
+    type filter hook output priority filter;
+    policy {{ 'accept' if firewall_default_policy.outgoing == 'allow' else 'drop' }};
+  }
+}
+
+table ip nat {
+  chain postrouting {
+    type nat hook postrouting priority srcnat;
+    {% for rule in firewall_rules if rule.chain == 'postrouting' %}
+    oif {{ rule.oif }} {{ rule.nat }};
+    {% endfor %}
+  }
+}
