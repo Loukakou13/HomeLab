@@ -22,6 +22,10 @@
       --disable servicelb
       --flannel-backend='none'
       --disable-network-policy
+      --kube-controller-manager-arg=bind-address=0.0.0.0
+      --kube-scheduler-arg=bind-address=0.0.0.0
+      --kube-proxy-arg=metrics-bind-address=0.0.0.0
+      --etcd-expose-metrics=true
   args:
     creates: /usr/local/bin/k3s
   become: true
