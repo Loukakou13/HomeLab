@@ -9,5 +9,5 @@ resources:
   - pvc-config.yml
   - service-account.yml
   - service.yml
-  - vault_auth.yml
-  - vault_static_secret.yml
+  - vault-auth.yml
+  - vault-static-secret.yml
