@@ -1,4 +1,4 @@
-vrrp_instance VI_K3S {
+vrrp_instance {{ keepalived_instance_name }} {
     state {{ keepalived_state }}
     interface {{ keepalived_interface }}
     virtual_router_id {{ keepalived_router_id }}

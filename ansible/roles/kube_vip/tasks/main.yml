@@ -7,7 +7,7 @@
 - name: Apply the kube-vip manifest
   kubernetes.core.k8s:
     state: present
-    src: kube-vip-daemonset.yml
+    src: "{{ lookup('template', 'kube-vip-daemonset.yml.j2') | from_yaml }}"
     kubeconfig: "{{ kubeconfig_path }}"
 
 - name: Wait the kube-vip DeamonSet to be ready

@@ -39,7 +39,7 @@ spec:
                 fieldRef:
                   fieldPath: spec.nodeName
             - name: vip_interface
-              value: eth0
+              value: {{ kube_vip_interface }}
             - name: vip_subnet
               value: "32"
             - name: dns_mode
@@ -61,7 +61,7 @@ spec:
             - name: vip_retryperiod
               value: "2"
             - name: address
-              value: 192.168.1.151
+              value: {{ kube_vip_address }}
             - name: prometheus_server
               value: :2112
           image: ghcr.io/kube-vip/kube-vip:v1.1.2
