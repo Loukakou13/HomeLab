@@ -1,0 +1,17 @@
+apiVersion: policies.kyverno.io/v1
+kind: ValidatingPolicy
+metadata:
+  name: default-namespace
+spec:
+  validationActions:
+    - Deny
+    - Audit
+  matchConstraints:
+    resourceRules:
+      - apiGroups: [""]
+        apiVersions: ["v1"]
+        operations: ["CREATE", "UPDATE"]
+        resources: ["pods"]
+  validations:
+    - message: Pods should not be deployed on the default namespace.
+      expression: 'namespaceObject.metadata.name  != "default"'
