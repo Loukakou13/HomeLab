@@ -3,3 +3,4 @@ k3s_init_master: "k3s-m-1"
 
 k3s__firewall_rules:
   - { port: 10250, proto: 'tcp', comment: 'k3s Kubelet metrics and API' }
+  - { port: 9100, proto: 'tcp', comment: 'node exporter' }
