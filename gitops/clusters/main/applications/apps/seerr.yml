@@ -1,0 +1,33 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: seerr
+  namespace: argocd
+spec:
+  project: apps
+  sources:
+    - repoURL: https://github.com/Loukakou13/HomeLab.git
+      targetRevision: main
+      path: gitops/apps/seerr
+    - chart: seerr
+      repoURL: ghcr.io/seerr-team/seerr/seerr-chart
+      targetRevision: 3.5.1
+      helm:
+        releaseName: seerr
+        valueFiles:
+          - $values/gitops/apps/seerr/values.yml
+    - repoURL: https://github.com/Loukakou13/HomeLab.git
+      targetRevision: main
+      ref: values
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: seerr
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    managedNamespaceMetadata:
+      labels:
+        gateway-nginx-int-pub: "true"
+    syncOptions:
+      - CreateNamespace=true
