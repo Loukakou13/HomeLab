@@ -1,0 +1,12 @@
+- name: Install wireguard
+  ansible.builtin.import_tasks: install.yml
+- name: Ensure forward is enabled
+  ansible.builtin.import_tasks: sysctl.yml
+- name: Server side configurations
+  ansible.builtin.import_tasks: server.yml
+
+- name: Ensure WireGuard service is enabled and running
+  ansible.builtin.systemd:
+    name: "wg-quick@{{ wireguard_interface }}"
+    state: started
+    enabled: true

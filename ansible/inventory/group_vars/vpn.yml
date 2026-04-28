@@ -1,0 +1,6 @@
+wireguard__firewall_rules:
+  - { chain: 'input', port: 51820, proto: 'udp', comment: 'wireguard connections' }
+  - { chain: 'forward', iifname: 'wg0', comment: 'allow traffic from wireguard'}
+  - { chain: 'postrouting', oif: 'eth0', nat: 'masquerade'}
+
+firewall_backend: 'nftables'
