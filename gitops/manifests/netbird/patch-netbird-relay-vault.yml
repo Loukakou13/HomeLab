@@ -1,0 +1,15 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: netbird-relay
+  namespace: netbird
+spec:
+  template:
+    spec:
+      containers:
+        - name: netbird-relay
+          command: ["/busybox/sh", "-c"]
+          args:
+            - |
+              . /vault/secrets/secrets.env
+              exec /go/bin/netbird-relay

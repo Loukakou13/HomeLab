@@ -1,0 +1,253 @@
+management:
+  configmap: |
+    {
+      "Stuns": [
+        {
+          "Proto": "udp",
+          "URI": "{{ .STUN_SERVER }}",
+          "Username": "",
+          "Password": null
+        }
+      ],
+      "TURNConfig": {
+        "Turns": [
+          {
+            "Proto": "udp",
+            "URI": "{{ .TURN_SERVER }}",
+            "Username": "{{ .TURN_SERVER_USER }}",
+            "Password": "{{ .TURN_SERVER_PASSWORD }}"
+          }
+        ],
+        "CredentialsTTL": "12h",
+        "Secret": "secret",
+        "TimeBasedCredentials": false
+      },
+      "Relay": {
+        "Addresses": [
+          "rels://netbird.loukawai.fr:443/relay"
+        ],
+        "CredentialsTTL": "24h",
+        "Secret": "{{ .RELAY_PASSWORD }}"
+      },
+      "Signal": {
+        "Proto": "https",
+        "URI": "netbird.loukawai.fr:443",
+        "Username": "",
+        "Password": ""
+      },
+      "ReverseProxy": {
+        "TrustedHTTPProxies": null,
+        "TrustedHTTPProxiesCount": 0,
+        "TrustedPeers": null
+      },
+      "DisableDefaultPolicy": false,
+      "Datadir": "/var/lib/netbird/",
+      "DataStoreEncryptionKey": "{{ .DATASTORE_ENCRYPTION_KEY }}",
+      "StoreConfig": {
+        "Engine": "postgres"
+      },
+      "HttpConfig": {
+        "LetsEncryptDomain": "",
+        "AuthIssuer": "https://authentik.loukawai.fr/application/o/netbird/",
+        "AuthAudience": "{{ .IDP_CLIENT_ID }}",
+        "AuthKeysLocation": "https://authentik.loukawai.fr/application/o/netbird/jwks/",
+        "AuthUserIDClaim": "",
+        "CertFile": "",
+        "CertKey": "",
+        "IdpSignKeyRefreshEnabled": false,
+        "OIDCConfigEndpoint": "https://authentik.loukawai.fr/application/o/netbird/.well-known/openid-configuration"
+      },
+      "IdpManagerConfig": {
+        "ManagerType": "authentik",
+        "ClientConfig": {
+          "Issuer": "https://authentik.loukawai.fr/application/o/netbird/",
+          "TokenEndpoint": "https://authentik.loukawai.fr/application/o/token/",
+          "ClientID": "{{ .IDP_CLIENT_ID }}",
+          "ClientSecret": "",
+          "GrantType": "client_credentials"
+        },
+        "ExtraConfig": {
+          "Password": "{{ .IDP_SERVICE_ACCOUNT_PASSWORD }}",
+          "Username": "{{ .IDP_SERVICE_ACCOUNT_USER }}"
+        },
+        "Auth0ClientCredentials": null,
+        "AzureClientCredentials": null,
+        "KeycloakClientCredentials": null,
+        "ZitadelClientCredentials": null
+      },
+      "DeviceAuthorizationFlow": {
+        "Provider": "hosted",
+        "ProviderConfig": {
+          "Audience": "{{ .IDP_CLIENT_ID }}",
+          "AuthorizationEndpoint": "",
+          "Domain": "authentik.loukawai.fr",
+          "ClientID": "{{ .IDP_CLIENT_ID }}",
+          "ClientSecret": "",
+          "TokenEndpoint": "https://authentik.loukawai.fr/application/o/token/",
+          "DeviceAuthEndpoint": "https://authentik.loukawai.fr/application/o/device/",
+          "Scope": "openid",
+          "UseIDToken": false,
+          "RedirectURLs": null
+        }
+      },
+      "PKCEAuthorizationFlow": {
+        "ProviderConfig": {
+          "Audience": "{{ .IDP_CLIENT_ID }}",
+          "ClientID": "{{ .IDP_CLIENT_ID }}",
+          "ClientSecret": "",
+          "Domain": "",
+          "DeviceAuthEndpoint": "",
+          "AuthorizationEndpoint": "https://authentik.loukawai.fr/application/o/authorize/",
+          "TokenEndpoint": "https://authentik.loukawai.fr/application/o/token/",
+          "Scope": "openid profile email offline_access api",
+          "RedirectURLs": ["http://localhost:53000"],
+          "UseIDToken": false,
+          "DisablePromptLogin": true,
+          "LoginFlag": 0
+        }
+      }
+    }
+  podAnnotations:
+    vault.hashicorp.com/agent-inject: "true"
+    vault.hashicorp.com/role: "netbird-management"
+    vault.hashicorp.com/agent-inject-secret-secrets.env: "infra/data/k8s/netbird/management"
+    vault.hashicorp.com/agent-inject-template-secrets.env: |
+      {{- with secret "infra/data/k8s/netbird/management" -}}
+      export NETBIRD_STORE_ENGINE_POSTGRES_DSN='{{ .Data.data.netbird_store_engine_postgres_dsn }}'
+      export STUN_SERVER='{{ .Data.data.stun_server }}'
+      export TURN_SERVER='{{ .Data.data.turn_server }}'
+      export TURN_SERVER_USER='{{ .Data.data.turn_server_user }}'
+      export TURN_SERVER_PASSWORD='{{ .Data.data.turn_server_password }}'
+      export RELAY_PASSWORD='{{ .Data.data.relay_password }}'
+      export DATASTORE_ENCRYPTION_KEY='{{ .Data.data.datastore_encryption_key }}'
+      export IDP_CLIENT_ID='{{ .Data.data.idp_client_id }}'
+      export IDP_SERVICE_ACCOUNT_USER='{{ .Data.data.idp_service_account_user }}'
+      export IDP_SERVICE_ACCOUNT_PASSWORD='{{ .Data.data.idp_service_account_password }}'
+      {{- end }}
+  persistentVolume:
+    enabled: false
+  ingress:
+    enabled: true
+    className: external
+    annotations:
+      nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+      cert-manager.io/cluster-issuer: "letsencrypt-dns"
+    hosts:
+      - host: netbird.loukawai.fr
+        paths:
+          - path: /api
+            pathType: ImplementationSpecific
+    tls:
+      - secretName: netbird-api-tls
+        hosts:
+          - netbird.loukawai.fr
+  ingressGrpc:
+    enabled: true
+    className: external
+    annotations:
+      nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+      cert-manager.io/cluster-issuer: "letsencrypt-dns"
+      nginx.ingress.kubernetes.io/backend-protocol: GRPC
+      nginx.ingress.kubernetes.io/ssl-redirect: "true"
+      nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+      nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+    hosts:
+      - host: netbird.loukawai.fr
+        paths:
+          - path: /management.ManagementService
+            pathType: ImplementationSpecific
+    tls:
+      - secretName: netbird-grpc-tls
+        hosts:
+          - netbird.loukawai.fr
+
+signal:
+  ingress:
+    enabled: true
+    className: external
+    annotations:
+      nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+      nginx.ingress.kubernetes.io/backend-protocol: GRPC
+      nginx.ingress.kubernetes.io/ssl-redirect: "true"
+      nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+      nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+      cert-manager.io/cluster-issuer: "letsencrypt-dns"
+    hosts:
+      - host: netbird.loukawai.fr
+        paths:
+          - path: /signalexchange.SignalExchange
+            pathType: ImplementationSpecific
+    tls:
+      - secretName: netbird-signal-tls
+        hosts:
+          - netbird.loukawai.fr
+
+relay:
+  podAnnotations:
+    vault.hashicorp.com/agent-inject: "true"
+    vault.hashicorp.com/role: "netbird-relay"
+    vault.hashicorp.com/agent-inject-secret-secrets.env: "infra/data/k8s/netbird/relay"
+    vault.hashicorp.com/agent-inject-template-secrets.env: |
+      {{- with secret "infra/data/k8s/netbird/relay" -}}
+      export NB_AUTH_SECRET='{{ .Data.data.relay_password }}'
+      {{- end }}
+  ingress:
+    enabled: true
+    className: external
+    annotations:
+      cert-manager.io/cluster-issuer: "letsencrypt-dns"
+    hosts:
+      - host: netbird.loukawai.fr
+        paths:
+          - path: /relay
+            pathType: ImplementationSpecific
+    tls:
+      - secretName: netbird-relay-tls
+        hosts:
+          - netbird.loukawai.fr
+  env:
+    NB_LOG_LEVEL: info
+    NB_LISTEN_ADDRESS: ":33080"
+    NB_EXPOSED_ADDRESS: rels://netbird.loukawai.fr:443/relay
+
+dashboard:
+  podAnnotations:
+    vault.hashicorp.com/agent-inject: "true"
+    vault.hashicorp.com/role: "netbird-dashboard"
+    vault.hashicorp.com/agent-inject-secret-secrets.env: "infra/data/k8s/netbird/dashboard"
+    vault.hashicorp.com/agent-inject-template-secrets.env: |
+      {{- with secret "infra/data/k8s/netbird/dashboard" -}}
+      export AUTH_CLIENT_ID='{{ .Data.data.auth_client_id }}'
+      export AUTH_AUDIENCE='{{ .Data.data.auth_audience }}'
+      {{- end }}
+  ingress:
+    enabled: true
+    className: internal
+    annotations:
+      nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+      cert-manager.io/cluster-issuer: "letsencrypt-dns"
+    hosts:
+      - host: dashboard.netbird.loukawai.fr
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+    tls:
+      - secretName: netbird-dashboard-tls
+        hosts:
+          - dashboard.netbird.loukawai.fr
+  env:
+    # Endpoints
+    NETBIRD_MGMT_API_ENDPOINT: https://netbird.loukawai.fr:443
+    NETBIRD_MGMT_GRPC_API_ENDPOINT: https://netbird.loukawai.fr:443
+    # OIDC
+    AUTH_AUTHORITY: https://authentik.loukawai.fr/application/o/netbird/
+    USE_AUTH0: false
+    AUTH_SUPPORTED_SCOPES: openid profile email offline_access api
+    AUTH_REDIRECT_URI: /auth
+    AUTH_SILENT_REDIRECT_URI: /silent-auth
+    NETBIRD_TOKEN_SOURCE: accessToken
+    # SSL
+    NGINX_SSL_PORT: 443
+    # Letsencrypt
+    LETSENCRYPT_DOMAIN:
+    LETSENCRYPT_EMAIL:
