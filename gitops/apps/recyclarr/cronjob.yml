@@ -1,0 +1,59 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: recyclarr
+  labels:
+    app: recyclarr
+spec:
+  schedule: "0 4 * * 1"
+  timeZone: "Europe/Paris"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      backoffLimit: 1
+      ttlSecondsAfterFinished: 86400
+      template:
+        metadata:
+          labels:
+            app: recyclarr
+        spec:
+          restartPolicy: OnFailure
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+            fsGroup: 1000
+          containers:
+            - name: recyclarr
+              image: ghcr.io/recyclarr/recyclarr:8
+              imagePullPolicy: IfNotPresent
+              command: ["recyclarr"]
+              args: ["sync"]
+              env:
+                - name: TZ
+                  value: Europe/Paris
+              envFrom:
+                - secretRef:
+                    name: recyclarr-secrets
+              volumeMounts:
+                - name: config
+                  mountPath: /config/recyclarr.yml
+                  subPath: recyclarr.yml
+                  readOnly: true
+                - name: data
+                  mountPath: /config
+              resources:
+                requests:
+                  cpu: 50m
+                  memory: 64Mi
+                limits:
+                  cpu: 500m
+                  memory: 256Mi
+          volumes:
+            - name: config
+              configMap:
+                name: recyclarr-config
+            - name: data
+              persistentVolumeClaim:
+                claimName: recyclarr-data

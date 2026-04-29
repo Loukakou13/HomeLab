@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: recyclarr
+  namespace: argocd
+spec:
+  project: apps
+  sources:
+    - repoURL: https://github.com/Loukakou13/HomeLab.git
+      targetRevision: main
+      path: gitops/apps/recyclarr
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: recyclarr
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    managedNamespaceMetadata:
+      labels:
+        gateway-nginx-int-pub: "true"
+    syncOptions:
+      - CreateNamespace=true

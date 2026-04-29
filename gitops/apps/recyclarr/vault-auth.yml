@@ -1,0 +1,12 @@
+apiVersion: secrets.hashicorp.com/v1beta1
+kind: VaultAuth
+metadata:
+  name: recyclarr
+  namespace: recyclarr
+spec:
+  method: kubernetes
+  mount: kubernetes
+  kubernetes:
+    role: recyclarr
+    serviceAccount: recyclarr
+    tokenExpirationSeconds: 600
